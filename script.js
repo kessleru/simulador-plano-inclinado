@@ -86,9 +86,10 @@
         } else {
             dir = 'Blocos descem (m₃ sobe)'; code = 'down';
             f1E = f1; f2E = f2;
-            acc = (P1x + P2x - P3 - fT) / (m1 + m2 + m3);
-            T1 = m1 * (g * sA - mu * g * cA - acc);
-            T2 = m3 * (acc + g);
+            acc = (P3 - P1x - P2x + fT) / (m1 + m2 + m3);
+            let absAcc = Math.abs(acc);
+            T1 = m1 * (g * sA - mu * g * cA - absAcc);
+            T2 = m3 * (absAcc + g);
         }
 
         return {
@@ -232,7 +233,7 @@
     function showResults(r) {
         dom.results.classList.remove('hidden');
         const items = [
-            ['Aceleração', fmt(Math.abs(r.acc)), 'm/s²'],
+            ['Aceleração', fmt(r.acc), 'm/s²'],
             ['Força Resultante', fmt(r.Fr), 'N'],
             ['Sentido', r.dir, ''],
             ['Tensão T₁', fmt(Math.abs(r.T1)), 'N'],
@@ -335,13 +336,13 @@
             d7 = [
                 `a = [P₃ − (P₁ₓ+P₂ₓ) − f_total] / (m₁+m₂+m₃)`,
                 `a = [${s(r.P3)} − ${s(r.P1x+r.P2x)} − ${s(fM)}] / ${s(r.m1+r.m2+r.m3)}`,
-                `<span class="hl">a = ${s(Math.abs(r.acc))} m/s²</span>`,
+                `<span class="hl">a = ${s(r.acc)} m/s²</span>`,
             ];
         } else {
             d7 = [
-                `a = [(P₁ₓ+P₂ₓ) − P₃ − f_total] / (m₁+m₂+m₃)`,
-                `a = [${s(r.P1x+r.P2x)} − ${s(r.P3)} − ${s(fM)}] / ${s(r.m1+r.m2+r.m3)}`,
-                `<span class="hl">a = ${s(Math.abs(r.acc))} m/s²</span>`,
+                `a = [P₃ − (P₁ₓ+P₂ₓ) + f_total] / (m₁+m₂+m₃)`,
+                `a = [${s(r.P3)} − ${s(r.P1x+r.P2x)} + ${s(fM)}] / ${s(r.m1+r.m2+r.m3)}`,
+                `<span class="hl">a = ${s(r.acc)} m/s²</span>`,
             ];
         }
         h += blk('Passo 7 — Aceleração', d7);
@@ -359,8 +360,8 @@
             ];
         } else {
             d8 = [
-                `T₁ = m₁(g·sinα − μ·g·cosα − a) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
-                `T₂ = m₃(g + a) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
+                `T₁ = m₁(g·sinα − μ·g·cosα − |a|) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
+                `T₂ = m₃(g + |a|) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
             ];
         }
         h += blk('Passo 8 — Trações', d8);
