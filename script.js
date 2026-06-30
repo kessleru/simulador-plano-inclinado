@@ -10,7 +10,8 @@
     const dom = {
         m1: $('input-m1'), m2: $('input-m2'), m3: $('input-m3'),
         angle: $('input-angle'), angleSlider: $('input-angle-slider'),
-        mu: $('input-mu'), muSlider: $('input-mu-slider'),
+        muE: $('input-mu-e'), muESlider: $('input-mu-e-slider'),
+        muK: $('input-mu-k'), muKSlider: $('input-mu-k-slider'),
         g: $('input-g'),
         btnCalc: $('btn-calculate'), btnClear: $('btn-clear'),
         btnAnim: $('btn-animate'), btnStop: $('btn-stop'),
@@ -58,7 +59,8 @@
         const m2 = parseFloat(dom.m2.value) || 0.1;
         const m3 = parseFloat(dom.m3.value) || 0.1;
         const deg = parseFloat(dom.angle.value) || 30;
-        const mu = parseFloat(dom.mu.value) || 0;
+        const muE = parseFloat(dom.muE.value) || 0;
+        const muK = parseFloat(dom.muK.value) || 0;
         const g = parseFloat(dom.g.value) || 9.81;
         const a = rad(deg), sA = Math.sin(a), cA = Math.cos(a);
 
@@ -66,36 +68,46 @@
         const P1x = m1 * g * sA, P1y = m1 * g * cA;
         const P2x = m2 * g * sA, P2y = m2 * g * cA;
         const N1 = P1y, N2 = P2y;
-        const f1 = mu * N1, f2 = mu * N2, fT = f1 + f2;
+        
+        // Static friction test
+        const f1_max = muE * N1, f2_max = muE * N2, fT_max = f1_max + f2_max;
         const Fnet = P3 - (P1x + P2x);
 
-        let acc, T1, T2, dir, code, f1E, f2E;
+        let acc, T1, T2, dir, code, f1E, f2E, f1, f2;
 
-        if (Math.abs(Fnet) <= fT) {
+        if (Math.abs(Fnet) <= fT_max) {
             dir = 'Equilíbrio'; code = 'eq'; acc = 0;
             T2 = P3;
+            // The static friction needed to balance Fnet
             f1E = Fnet * m1 / (m1 + m2);
             f2E = Fnet * m2 / (m1 + m2);
-            T1 = P1x + f1E;
-        } else if (Fnet > 0) {
-            dir = 'Blocos sobem (m₃ desce)'; code = 'up';
-            f1E = f1; f2E = f2;
-            acc = (P3 - P1x - P2x - fT) / (m1 + m2 + m3);
-            T1 = m1 * (acc + g * sA + mu * g * cA);
-            T2 = m3 * (g - acc);
+            T1 = P1x + f1E; // Equivalent to P3 based on mass proportion or just the general equilibrium equation
+            f1 = 0; f2 = 0; // Not moving, we don't have a single kinetic friction value
         } else {
-            dir = 'Blocos descem (m₃ sobe)'; code = 'down';
-            f1E = f1; f2E = f2;
-            acc = (P3 - P1x - P2x + fT) / (m1 + m2 + m3);
-            let absAcc = Math.abs(acc);
-            T1 = m1 * (g * sA - mu * g * cA - absAcc);
-            T2 = m3 * (absAcc + g);
+            // Kinetic friction during movement
+            f1 = muK * N1; f2 = muK * N2; 
+            const fT = f1 + f2;
+            
+            if (Fnet > 0) {
+                dir = 'Blocos sobem (m₃ desce)'; code = 'up';
+                f1E = f1; f2E = f2;
+                acc = (P3 - P1x - P2x - fT) / (m1 + m2 + m3);
+                T1 = m1 * (acc + g * sA + muK * g * cA);
+                T2 = m3 * (g - acc);
+            } else {
+                dir = 'Blocos descem (m₃ sobe)'; code = 'down';
+                f1E = f1; f2E = f2;
+                acc = (P3 - P1x - P2x + fT) / (m1 + m2 + m3);
+                let absAcc = Math.abs(acc);
+                T1 = m1 * (g * sA - muK * g * cA - absAcc);
+                T2 = m3 * (absAcc + g);
+            }
         }
 
         return {
-            m1, m2, m3, g, deg, alpha: a, mu, sA, cA,
+            m1, m2, m3, g, deg, alpha: a, muE, muK, sA, cA,
             P1, P2, P3, P1x, P1y, P2x, P2y, N1, N2,
-            f1, f2, f1E, f2E, T1, T2,
+            f1, f2, f1E, f2E, T1, T2, fT_max,
             acc, Fr: (m1 + m2 + m3) * Math.abs(acc), dir, code
         };
     }
@@ -215,7 +227,7 @@
         // Info
         if (r) {
             ctx.fillStyle = '#555'; ctx.font = '500 11px Inter'; ctx.textAlign = 'center';
-            ctx.fillText(`α=${r.deg}°   μ=${r.mu}`, (Ax + Bx) / 2, By + 20);
+            ctx.fillText(`α=${r.deg}°   μₑ=${r.muE}   μ𝒸=${r.muK}`, (Ax + Bx) / 2, By + 20);
         }
     }
 
@@ -243,8 +255,8 @@
             ['Peso m₃', fmt(r.P3), 'N'],
             ['Normal N₁', fmt(r.N1), 'N'],
             ['Normal N₂', fmt(r.N2), 'N'],
-            ['Atrito f₁', fmt(r.f1), 'N'],
-            ['Atrito f₂', fmt(r.f2), 'N'],
+            ['Atrito f₁', r.code === 'eq' ? fmt(Math.abs(r.f1E)) : fmt(r.f1), 'N'],
+            ['Atrito f₂', r.code === 'eq' ? fmt(Math.abs(r.f2E)) : fmt(r.f2), 'N'],
         ];
         dom.grid.innerHTML = items.map(i =>
             `<div class="result-item">
@@ -265,7 +277,7 @@
             ['Comp. P₁ₓ', 'm₁·g·sin α', fmt(r.P1x)],
             ['Comp. P₁ᵧ', 'm₁·g·cos α', fmt(r.P1y)],
             ['Normal N₁', 'm₁·g·cos α', fmt(r.N1)],
-            ['Atrito f₁', 'μ·N₁', fmt(r.f1)],
+            ['Atrito f₁', r.code === 'eq' ? '(estático)' : 'μ𝒸·N₁', r.code === 'eq' ? fmt(Math.abs(r.f1E)) : fmt(r.f1)],
             ['Tração T₁', '—', fmt(Math.abs(r.T1))],
         ]);
         dom.tM2.innerHTML = row([
@@ -273,7 +285,7 @@
             ['Comp. P₂ₓ', 'm₂·g·sin α', fmt(r.P2x)],
             ['Comp. P₂ᵧ', 'm₂·g·cos α', fmt(r.P2y)],
             ['Normal N₂', 'm₂·g·cos α', fmt(r.N2)],
-            ['Atrito f₂', 'μ·N₂', fmt(r.f2)],
+            ['Atrito f₂', r.code === 'eq' ? '(estático)' : 'μ𝒸·N₂', r.code === 'eq' ? fmt(Math.abs(r.f2E)) : fmt(r.f2)],
             ['Tração T₁', '(reação)', fmt(Math.abs(r.T1))],
             ['Tração T₂', '—', fmt(Math.abs(r.T2))],
         ]);
@@ -292,7 +304,7 @@
         h += blk('Passo 1 — Dados', [
             `m₁ = ${s(r.m1)} kg,  m₂ = ${s(r.m2)} kg,  m₃ = ${s(r.m3)} kg`,
             `α = ${r.deg}°  →  sin α = ${s(sn,4)},  cos α = ${s(cs,4)}`,
-            `μ = ${r.mu},   g = ${s(r.g)} m/s²`,
+            `μₑ = ${r.muE}, μ𝒸 = ${r.muK},   g = ${s(r.g)} m/s²`,
         ]);
 
         h += blk('Passo 2 — Pesos', [
@@ -313,20 +325,20 @@
             `N₂ = m₂·g·cos α = <span class="r">${s(r.N2)} N</span>`,
         ]);
 
-        h += blk('Passo 5 — Atrito', [
-            `f₁ = μ·N₁ = ${r.mu} × ${s(r.N1)} = <span class="r">${s(r.f1)} N</span>`,
-            `f₂ = μ·N₂ = ${r.mu} × ${s(r.N2)} = <span class="r">${s(r.f2)} N</span>`,
-            `f_total = <span class="r">${s(r.f1 + r.f2)} N</span>`,
+        h += blk('Passo 5 — Atrito (Max Estático)', [
+            `f1_max = μₑ·N₁ = ${r.muE} × ${s(r.N1)} = <span class="r">${s(r.muE * r.N1)} N</span>`,
+            `f2_max = μₑ·N₂ = ${r.muE} × ${s(r.N2)} = <span class="r">${s(r.muE * r.N2)} N</span>`,
+            `f_max_total = <span class="r">${s(r.fT_max)} N</span>`,
         ]);
 
-        const Fn = r.P3 - r.P1x - r.P2x, fM = r.f1 + r.f2;
+        const Fn = r.P3 - r.P1x - r.P2x, fM = r.fT_max;
         let d6 = [
             `F_net = P₃ − (P₁ₓ + P₂ₓ) = ${s(r.P3)} − ${s(r.P1x + r.P2x)} = <span class="r">${s(Fn)} N</span>`,
-            `f_max = <span class="r">${s(fM)} N</span>`,
+            `f_max_total = <span class="r">${s(fM)} N</span>`,
         ];
-        if (r.code === 'eq') d6.push(`|F_net| ≤ f_max  →  <span class="hl">EQUILÍBRIO</span>`);
-        else if (r.code === 'up') d6.push(`F_net > f_max  →  <span class="hl">Blocos SOBEM, m₃ DESCE</span>`);
-        else d6.push(`|F_net| > f_max  →  <span class="hl">Blocos DESCEM, m₃ SOBE</span>`);
+        if (r.code === 'eq') d6.push(`|F_net| ≤ f_max_total  →  <span class="hl">EQUILÍBRIO ESTÁTICO</span>`);
+        else if (r.code === 'up') d6.push(`F_net > f_max_total  →  <span class="hl">Blocos SOBEM, m₃ DESCE</span>`);
+        else d6.push(`|F_net| > f_max_total  →  <span class="hl">Blocos DESCEM, m₃ SOBE</span>`);
         h += blk('Passo 6 — Sentido do Movimento', d6);
 
         let d7;
@@ -334,14 +346,16 @@
             d7 = [`<span class="hl">a = 0 m/s²</span>`];
         } else if (r.code === 'up') {
             d7 = [
+                `f_total (cinético) = μ𝒸·(N₁ + N₂) = ${s(r.f1 + r.f2)} N`,
                 `a = [P₃ − (P₁ₓ+P₂ₓ) − f_total] / (m₁+m₂+m₃)`,
-                `a = [${s(r.P3)} − ${s(r.P1x+r.P2x)} − ${s(fM)}] / ${s(r.m1+r.m2+r.m3)}`,
+                `a = [${s(r.P3)} − ${s(r.P1x+r.P2x)} − ${s(r.f1 + r.f2)}] / ${s(r.m1+r.m2+r.m3)}`,
                 `<span class="hl">a = ${s(r.acc)} m/s²</span>`,
             ];
         } else {
             d7 = [
+                `f_total (cinético) = μ𝒸·(N₁ + N₂) = ${s(r.f1 + r.f2)} N`,
                 `a = [P₃ − (P₁ₓ+P₂ₓ) + f_total] / (m₁+m₂+m₃)`,
-                `a = [${s(r.P3)} − ${s(r.P1x+r.P2x)} + ${s(fM)}] / ${s(r.m1+r.m2+r.m3)}`,
+                `a = [${s(r.P3)} − ${s(r.P1x+r.P2x)} + ${s(r.f1 + r.f2)}] / ${s(r.m1+r.m2+r.m3)}`,
                 `<span class="hl">a = ${s(r.acc)} m/s²</span>`,
             ];
         }
@@ -350,17 +364,19 @@
         let d8;
         if (r.code === 'eq') {
             d8 = [
+                `Sistema em equilíbrio.`,
+                `As trações equilibram F_net.`,
                 `T₂ = m₃·g = <span class="r">${s(Math.abs(r.T2))} N</span>`,
                 `T₁ = P₁ₓ + f₁_ef = <span class="r">${s(Math.abs(r.T1))} N</span>`,
             ];
         } else if (r.code === 'up') {
             d8 = [
-                `T₁ = m₁(a + g·sinα + μ·g·cosα) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
+                `T₁ = m₁(a + g·sinα + μ𝒸·g·cosα) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
                 `T₂ = m₃(g − a) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
             ];
         } else {
             d8 = [
-                `T₁ = m₁(g·sinα − μ·g·cosα − |a|) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
+                `T₁ = m₁(g·sinα − μ𝒸·g·cosα − |a|) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
                 `T₂ = m₃(g + |a|) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
             ];
         }
@@ -410,8 +426,9 @@
     function doCalc(scroll) {
         const vals = [dom.m1, dom.m2, dom.m3, dom.angle, dom.g].map(e => parseFloat(e.value));
         if (vals.some(v => isNaN(v) || v <= 0)) return;
-        const mu = parseFloat(dom.mu.value);
-        if (isNaN(mu) || mu < 0) return;
+        const muE = parseFloat(dom.muE.value);
+        const muK = parseFloat(dom.muK.value);
+        if (isNaN(muE) || muE < 0 || isNaN(muK) || muK < 0) return;
 
         if (anim) stopAnim();
         res = calc();
@@ -428,7 +445,8 @@
         if (anim) stopAnim();
         dom.m1.value = 5; dom.m2.value = 3; dom.m3.value = 10;
         dom.angle.value = 30; dom.angleSlider.value = 30;
-        dom.mu.value = 0.2; dom.muSlider.value = 20;
+        dom.muE.value = 0.2; dom.muESlider.value = 20;
+        dom.muK.value = 0.15; dom.muKSlider.value = 15;
         dom.g.value = 9.81;
         [dom.results, dom.tables, dom.steps].forEach(s => s.classList.add('hidden'));
         dom.badge.className = 'badge hidden';
@@ -446,8 +464,10 @@
     // Atualizações em tempo real — SEM rolar a página
     dom.angle.addEventListener('input', () => { dom.angleSlider.value = dom.angle.value; if (res) doCalc(false); });
     dom.angleSlider.addEventListener('input', () => { dom.angle.value = dom.angleSlider.value; if (res) doCalc(false); });
-    dom.mu.addEventListener('input', () => { dom.muSlider.value = Math.round(parseFloat(dom.mu.value) * 100); if (res) doCalc(false); });
-    dom.muSlider.addEventListener('input', () => { dom.mu.value = (parseInt(dom.muSlider.value) / 100).toFixed(2); if (res) doCalc(false); });
+    dom.muE.addEventListener('input', () => { dom.muESlider.value = Math.round(parseFloat(dom.muE.value) * 100); if (res) doCalc(false); });
+    dom.muESlider.addEventListener('input', () => { dom.muE.value = (parseInt(dom.muESlider.value) / 100).toFixed(2); if (res) doCalc(false); });
+    dom.muK.addEventListener('input', () => { dom.muKSlider.value = Math.round(parseFloat(dom.muK.value) * 100); if (res) doCalc(false); });
+    dom.muKSlider.addEventListener('input', () => { dom.muK.value = (parseInt(dom.muKSlider.value) / 100).toFixed(2); if (res) doCalc(false); });
     [dom.m1, dom.m2, dom.m3, dom.g].forEach(e => e.addEventListener('input', () => { if (res) doCalc(false); }));
 
     window.addEventListener('resize', () => {

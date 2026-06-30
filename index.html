@@ -47,9 +47,14 @@
                     <input type="range" id="input-angle-slider" min="1" max="89" value="30">
                 </div>
                 <div class="input-group">
-                    <label for="input-mu">Coef. Atrito μ</label>
-                    <input type="number" id="input-mu" value="0.2" min="0" max="1" step="0.01">
-                    <input type="range" id="input-mu-slider" min="0" max="100" value="20">
+                    <label for="input-mu-e">Atrito Estático μₑ</label>
+                    <input type="number" id="input-mu-e" value="0.2" min="0" max="1" step="0.01">
+                    <input type="range" id="input-mu-e-slider" min="0" max="100" value="20">
+                </div>
+                <div class="input-group">
+                    <label for="input-mu-k">Atrito Cinético μ𝒸</label>
+                    <input type="number" id="input-mu-k" value="0.15" min="0" max="1" step="0.01">
+                    <input type="range" id="input-mu-k-slider" min="0" max="100" value="15">
                 </div>
                 <div class="input-group">
                     <label for="input-g">Gravidade (m/s²)</label>
@@ -115,13 +120,13 @@
                     <p>Bem-vindo ao <strong>PhysicSim</strong>! Este simulador calcula a dinâmica de um sistema de 3 blocos interligados com polia e atrito.</p>
                     <ol>
                         <li><strong>Ajuste as massas:</strong> Defina os valores para m₁, m₂ (no plano inclinado) e m₃ (pendurado).</li>
-                        <li><strong>Plano e atrito:</strong> Use os sliders para ajustar o ângulo de inclinação (α) e o coeficiente de atrito (μ).</li>
+                        <li><strong>Plano e atrito:</strong> Use os sliders para ajustar o ângulo de inclinação (α) e os coeficientes de atrito (μₑ e μ𝒸).</li>
                         <li><strong>Calcule:</strong> Clique em <strong>Calcular</strong> para verificar se o sistema entra em movimento ou permanece em equilíbrio.</li>
                         <li><strong>Anime:</strong> Se houver movimento, clique em <strong>▶ Animar</strong> para ver o sentido do deslocamento no diagrama.</li>
                         <li><strong>Estude:</strong> Role a página para conferir as forças detalhadas e a resolução algébrica passo a passo.</li>
                     </ol>
                     <div class="tutorial-tip">
-                        <strong>Dica:</strong> Se μ = 0, o plano não tem atrito (superfície perfeitamente lisa).
+                        <strong>Dica:</strong> Se μₑ = μ𝒸 = 0, o plano não tem atrito (superfície perfeitamente lisa).
                     </div>
                 </div>
             </section>
