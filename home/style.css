@@ -6,13 +6,13 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --bg: #08080d;
-    --surface: #111118;
-    --surface2: #1a1a25;
-    --border: #222233;
-    --text: #e0e0e8;
-    --text2: #888898;
-    --text3: #555565;
+    --bg: #111;
+    --surface: #1a1a1a;
+    --surface2: #222;
+    --border: #2a2a2a;
+    --text: #e5e5e5;
+    --text2: #999;
+    --text3: #666;
     --accent: #6c9ef8;
     --accent2: #8b5cf6;
     --m1: #e06060;

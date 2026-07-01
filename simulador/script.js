@@ -78,13 +78,11 @@
         if (Math.abs(Fnet) <= fT_max) {
             dir = 'Equilíbrio'; code = 'eq'; acc = 0;
             T2 = P3;
-            // The static friction needed to balance Fnet
             f1E = Fnet * m1 / (m1 + m2);
             f2E = Fnet * m2 / (m1 + m2);
-            T1 = P1x + f1E; // Equivalent to P3 based on mass proportion or just the general equilibrium equation
-            f1 = 0; f2 = 0; // Not moving, we don't have a single kinetic friction value
+            T1 = P1x + f1E;
+            f1 = 0; f2 = 0;
         } else {
-            // Kinetic friction during movement
             f1 = muK * N1; f2 = muK * N2; 
             const fT = f1 + f2;
             
@@ -233,7 +231,7 @@
 
     function arrow(ctx, x1, y1, x2, y2, h) {
         const a = Math.atan2(y2 - y1, x2 - x1);
-        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2 - h * Math.cos(a) * 0.5, y2 - h * Math.sin(a) * 0.5); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(x2, y2);
         ctx.lineTo(x2 - h * Math.cos(a - 0.4), y2 - h * Math.sin(a - 0.4));
         ctx.lineTo(x2 - h * Math.cos(a + 0.4), y2 - h * Math.sin(a + 0.4));
@@ -346,14 +344,14 @@
             d7 = [`<span class="hl">a = 0 m/s²</span>`];
         } else if (r.code === 'up') {
             d7 = [
-                `f_total (cinético) = μ𝒸·(N₁ + N₂) = ${s(r.f1 + r.f2)} N`,
+                `f_total (cinético) = μ𝒸·(N₁ + N₂) = <span class="r">${s(r.f1 + r.f2)} N</span>`,
                 `a = [P₃ − (P₁ₓ+P₂ₓ) − f_total] / (m₁+m₂+m₃)`,
                 `a = [${s(r.P3)} − ${s(r.P1x+r.P2x)} − ${s(r.f1 + r.f2)}] / ${s(r.m1+r.m2+r.m3)}`,
                 `<span class="hl">a = ${s(r.acc)} m/s²</span>`,
             ];
         } else {
             d7 = [
-                `f_total (cinético) = μ𝒸·(N₁ + N₂) = ${s(r.f1 + r.f2)} N`,
+                `f_total (cinético) = μ𝒸·(N₁ + N₂) = <span class="r">${s(r.f1 + r.f2)} N</span>`,
                 `a = [P₃ − (P₁ₓ+P₂ₓ) + f_total] / (m₁+m₂+m₃)`,
                 `a = [${s(r.P3)} − ${s(r.P1x+r.P2x)} + ${s(r.f1 + r.f2)}] / ${s(r.m1+r.m2+r.m3)}`,
                 `<span class="hl">a = ${s(r.acc)} m/s²</span>`,

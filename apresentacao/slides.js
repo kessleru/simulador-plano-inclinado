@@ -171,7 +171,7 @@
         ctx.lineCap = 'round';
         ctx.beginPath();
         ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
+        ctx.lineTo(x2 - headLen * Math.cos(angle) * 0.5, y2 - headLen * Math.sin(angle) * 0.5);
         ctx.stroke();
         ctx.beginPath();
         ctx.moveTo(x2, y2);
@@ -471,26 +471,6 @@
         var tStart = cy - bS / 2 - 6;
         arrow(ctx, cx, tStart, cx, tStart - 90, 12, '#c080e0', 3);
         labelAt(ctx, 'T₂', cx, tStart - 106, '#c080e0', 14, 'center', true);
-
-        // Rope hint
-        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([4, 3]);
-        ctx.beginPath(); ctx.moveTo(cx, tStart - 90); ctx.lineTo(cx, tStart - 130); ctx.stroke();
-        ctx.setLineDash([]);
-        labelAt(ctx, '↑ polia', cx, tStart - 142, 'rgba(255,255,255,0.25)', 10);
-
-        // Equation box (fixed at bottom)
-        ctx.save();
-        ctx.fillStyle = 'rgba(108, 158, 248, 0.06)';
-        rRect(ctx, cx - 115, H - 55, 230, 38, 8);
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(108, 158, 248, 0.15)';
-        ctx.lineWidth = 1;
-        rRect(ctx, cx - 115, H - 55, 230, 38, 8);
-        ctx.stroke();
-        ctx.restore();
-        labelAt(ctx, 'ΣF = P₃ − T₂ = m₃·a', cx, H - 36, '#6c9ef8', 12, 'center', true);
     }
 
     // ── Draw all canvases for current slide ──

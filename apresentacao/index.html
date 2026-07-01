@@ -26,7 +26,7 @@
         <button class="nav-btn" id="btn-prev" aria-label="Slide anterior">
             <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
         </button>
-        <span class="slide-counter" id="slide-counter">1 / 13</span>
+        <span class="slide-counter" id="slide-counter">1 / 12</span>
         <button class="nav-btn" id="btn-next" aria-label="Próximo slide">
             <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
         </button>
@@ -231,14 +231,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="equation-box">
-                            <h4>2ª Lei de Newton para m₃</h4>
-                            <div class="eq-line">P₃ − T₂ = m₃ · a</div>
-                            <div class="eq-line highlight">T₂ = m₃ · (g − a)</div>
-                            <p class="eq-note">Se o sistema está em equilíbrio (a = 0), então T₂ = m₃·g</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -252,228 +244,328 @@
                 <div class="equations-grid">
                     <div class="eq-card">
                         <div class="eq-card-header">
-                            <span class="eq-step">1</span>
-                            <span>Teste de Equilíbrio</span>
-                        </div>
-                        <div class="eq-card-body">
-                            <code>F_net = P₃ − (P₁ₓ + P₂ₓ)</code>
-                            <code>f_max = μₑ · (N₁ + N₂)</code>
-                            <code class="hl">|F_net| ≤ f_max → Equilíbrio</code>
-                        </div>
-                    </div>
-                    <div class="eq-card">
-                        <div class="eq-card-header">
                             <span class="eq-step">2</span>
-                            <span>Aceleração (se move)</span>
+                            <span>Pesos (P)</span>
                         </div>
                         <div class="eq-card-body">
-                            <code>f_c = μc · (N₁ + N₂)</code>
-                            <code class="hl">a = (P₃ − P₁ₓ − P₂ₓ ∓ f_c) / (m₁+m₂+m₃)</code>
-                            <code class="note">+ f_c se desce, − f_c se sobe</code>
+                            <code>P₁ = m₁ · g</code>
+                            <code>P₂ = m₂ · g</code>
+                            <code>P₃ = m₃ · g</code>
                         </div>
                     </div>
                     <div class="eq-card">
                         <div class="eq-card-header">
                             <span class="eq-step">3</span>
-                            <span>Trações (blocos sobem)</span>
+                            <span>Componentes no Plano</span>
                         </div>
                         <div class="eq-card-body">
-                            <code>T₁ = m₁(a + g·sinα + μc·g·cosα)</code>
-                            <code>T₂ = m₃(g − a)</code>
+                            <code>P₁ₓ = P₁ · sin α</code>
+                            <code>P₁ᵧ = P₁ · cos α</code>
+                            <code>P₂ₓ = P₂ · sin α</code>
+                            <code>P₂ᵧ = P₂ · cos α</code>
                         </div>
                     </div>
                     <div class="eq-card">
                         <div class="eq-card-header">
                             <span class="eq-step">4</span>
-                            <span>Trações (blocos descem)</span>
+                            <span>Forças Normais (N)</span>
                         </div>
                         <div class="eq-card-body">
+                            <code>N₁ = m₁ · g · cos α</code>
+                            <code>N₂ = m₂ · g · cos α</code>
+                        </div>
+                    </div>
+                    <div class="eq-card">
+                        <div class="eq-card-header">
+                            <span class="eq-step">5</span>
+                            <span>Atrito (Max Estático)</span>
+                        </div>
+                        <div class="eq-card-body">
+                            <code>f1_max = μₑ · N₁</code>
+                            <code>f2_max = μₑ · N₂</code>
+                            <code class="hl">f_max_total = f1_max + f2_max</code>
+                        </div>
+                    </div>
+                    <div class="eq-card">
+                        <div class="eq-card-header">
+                            <span class="eq-step">6</span>
+                            <span>Sentido do Movimento</span>
+                        </div>
+                        <div class="eq-card-body">
+                            <code>F_net = P₃ − (P₁ₓ + P₂ₓ)</code>
+                            <code>|F_net| ≤ f_max_total → Equilíbrio</code>
+                            <code class="hl">|F_net| &gt; f_max_total → Se Move</code>
+                        </div>
+                    </div>
+                    <div class="eq-card">
+                        <div class="eq-card-header">
+                            <span class="eq-step">7</span>
+                            <span>Aceleração</span>
+                        </div>
+                        <div class="eq-card-body">
+                            <code>f_total_c = μc · (N₁ + N₂)</code>
+                            <code class="hl">a = [P₃ − (P₁ₓ+P₂ₓ) ∓ f_total_c] / (m₁+m₂+m₃)</code>
+                            <code class="note">− se blocos sobem, + se descem</code>
+                        </div>
+                    </div>
+                    <div class="eq-card">
+                        <div class="eq-card-header">
+                            <span class="eq-step">8</span>
+                            <span>Trações</span>
+                        </div>
+                        <div class="eq-card-body">
+                            <code class="note">Se blocos sobem:</code>
+                            <code>T₁ = m₁(a + g·sinα + μc·g·cosα)</code>
+                            <code>T₂ = m₃(g − a)</code>
+                            <br>
+                            <code class="note">Se blocos descem:</code>
                             <code>T₁ = m₁(g·sinα − μc·g·cosα − |a|)</code>
                             <code>T₂ = m₃(g + |a|)</code>
                         </div>
                     </div>
                 </div>
+                <div class="eq-legend">
+                    <div class="eq-legend-item"><code>P</code> Peso (m·g)</div>
+                    <div class="eq-legend-item"><code>N</code> Força Normal</div>
+                    <div class="eq-legend-item"><code>f_max</code> Atrito Estático Max.</div>
+                    <div class="eq-legend-item"><code>f_c</code> Atrito Cinético</div>
+                    <div class="eq-legend-item"><code>F_net</code> Força Resultante (sem atrito)</div>
+                    <div class="eq-legend-item"><code>T</code> Tração da corda</div>
+                    <div class="eq-legend-item"><code>μₑ / μc</code> Coef. Atrito Estático/Cinético</div>
+                    <div class="eq-legend-item"><code>a</code> Aceleração</div>
+                </div>
             </div>
         </section>
 
-        <!-- ======== SLIDE 7 — Arquitetura do Código ======== -->
+        <!-- ======== SLIDE 7 — Arquitetura e Motor Físico ======== -->
         <section class="slide" data-slide="7">
             <div class="slide-content">
                 <div class="slide-label">06</div>
-                <h2 class="slide-title">Arquitetura do Código</h2>
-                <p class="slide-desc">O simulador é uma Single Page Application em Vanilla JS, dividida em módulos lógicos claros.</p>
-                <div class="arch-grid">
-                    <div class="arch-card">
-                        <div class="arch-icon">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e06060" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                        </div>
-                        <h3>index.html</h3>
-                        <p>Estrutura semântica com <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, grid responsivo, inputs com sliders e canvas.</p>
-                        <span class="arch-tag">141 linhas</span>
-                    </div>
-                    <div class="arch-card">
-                        <div class="arch-icon">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6c9ef8" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                        </div>
-                        <h3>style.css</h3>
-                        <p>Design system com CSS Custom Properties, dark mode, tipografia Inter + JetBrains Mono, responsivo.</p>
-                        <span class="arch-tag">342 linhas</span>
-                    </div>
-                    <div class="arch-card">
-                        <div class="arch-icon">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e0c040" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                        </div>
-                        <h3>script.js</h3>
-                        <p>IIFE modular: motor de física, renderização Canvas 2D HiDPI, animações com requestAnimationFrame.</p>
-                        <span class="arch-tag">479 linhas</span>
-                    </div>
-                </div>
+                <h2 class="slide-title">Motor Físico (calc)</h2>
+                <p class="slide-desc">O motor de física lê as variáveis, calcula a força resultante e aplica atrito estático e cinético sem usar bibliotecas externas.</p>
 
-                <div class="code-preview">
+                <div class="code-preview compact">
                     <div class="code-header">
                         <span class="code-dot red"></span>
                         <span class="code-dot yellow"></span>
                         <span class="code-dot green"></span>
-                        <span class="code-filename">script.js — Motor de Física</span>
+                        <span class="code-filename">simulador/script.js — Motor Físico Completo</span>
                     </div>
-                    <pre class="code-body"><span class="kw">function</span> <span class="fn">calc</span>() {
-    <span class="kw">const</span> P1x = m1 * g * <span class="fn">Math.sin</span>(alpha);
-    <span class="kw">const</span> N1  = m1 * g * <span class="fn">Math.cos</span>(alpha);
+                    <pre class="code-body"><span class="cm">// ── Física ──</span>
+<span class="kw">function</span> <span class="fn">calc</span>() {
+    <span class="cm">// 1. Leitura dos inputs e valores default de segurança</span>
+    <span class="kw">const</span> m1 = <span class="fn">parseFloat</span>(dom.m1.value) || 0.1;
+    <span class="kw">const</span> m2 = <span class="fn">parseFloat</span>(dom.m2.value) || 0.1;
+    <span class="kw">const</span> m3 = <span class="fn">parseFloat</span>(dom.m3.value) || 0.1;
+    <span class="kw">const</span> deg = <span class="fn">parseFloat</span>(dom.angle.value) || 30;
+    <span class="kw">const</span> muE = <span class="fn">parseFloat</span>(dom.muE.value) || 0;
+    <span class="kw">const</span> muK = <span class="fn">parseFloat</span>(dom.muK.value) || 0;
+    <span class="kw">const</span> g = <span class="fn">parseFloat</span>(dom.g.value) || 9.81;
+    <span class="kw">const</span> a = <span class="fn">rad</span>(deg), sA = Math.sin(a), cA = Math.cos(a);
+
+    <span class="cm">// 2. Decomposição das Forças (Px e Py) nos eixos do plano inclinado</span>
+    <span class="kw">const</span> P1 = m1 * g, P2 = m2 * g, P3 = m3 * g;
+    <span class="kw">const</span> P1x = m1 * g * sA, P1y = m1 * g * cA;
+    <span class="kw">const</span> P2x = m2 * g * sA, P2y = m2 * g * cA;
+    <span class="kw">const</span> N1 = P1y, N2 = P2y;
+    
+    <span class="cm">// 3. Teste do limite de Atrito Estático Máximo</span>
+    <span class="kw">const</span> f1_max = muE * N1, f2_max = muE * N2, fT_max = f1_max + f2_max;
     <span class="kw">const</span> Fnet = P3 - (P1x + P2x);
 
-    <span class="cm">// Teste de equilíbrio estático</span>
-    <span class="kw">if</span> (<span class="fn">Math.abs</span>(Fnet) <= fT_max) {
-        dir = <span class="str">'Equilíbrio'</span>;
-        acc = <span class="num">0</span>;
+    <span class="kw">let</span> acc, T1, T2, dir, code, f1E, f2E, f1, f2;
+
+    <span class="cm">// 4. Teste Lógico: Sistema entra em equilíbrio ou se move?</span>
+    <span class="kw">if</span> (Math.abs(Fnet) &lt;= fT_max) {
+        <span class="cm">// A força não superou o atrito estático -> Equilíbrio (Aceleração Zero)</span>
+        dir = 'Equilíbrio'; code = 'eq'; acc = 0;
+        T2 = P3;
+        f1E = Fnet * m1 / (m1 + m2);
+        f2E = Fnet * m2 / (m1 + m2);
+        T1 = P1x + f1E;
+        f1 = 0; f2 = 0;
     } <span class="kw">else</span> {
-        <span class="cm">// Movimento com atrito cinético</span>
-        acc = (P3 - P1x - P2x - fT) / (m1+m2+m3);
+        <span class="cm">// Movimento iminente detectado -> Aplica Atrito Cinético</span>
+        f1 = muK * N1; f2 = muK * N2; 
+        <span class="kw">const</span> fT = f1 + f2;
+        
+        <span class="kw">if</span> (Fnet &gt; 0) {
+            <span class="cm">// m3 é mais pesado, os blocos sobrem a rampa</span>
+            dir = 'Blocos sobem (m₃ desce)'; code = 'up';
+            f1E = f1; f2E = f2;
+            acc = (P3 - P1x - P2x - fT) / (m1 + m2 + m3);
+            T1 = m1 * (acc + g * sA + muK * g * cA);
+            T2 = m3 * (g - acc);
+        } <span class="kw">else</span> {
+            <span class="cm">// Px dos blocos é maior, eles escorregam rampa abaixo</span>
+            dir = 'Blocos descem (m₃ sobe)'; code = 'down';
+            f1E = f1; f2E = f2;
+            acc = (P3 - P1x - P2x + fT) / (m1 + m2 + m3);
+            <span class="kw">let</span> absAcc = Math.abs(acc);
+            T1 = m1 * (g * sA - muK * g * cA - absAcc);
+            T2 = m3 * (absAcc + g);
+        }
     }
+
+    <span class="cm">// 5. Exporta todos os dados processados para a UI e o Canvas desenharem</span>
+    <span class="kw">return</span> {
+        m1, m2, m3, g, deg, alpha: a, muE, muK, sA, cA,
+        P1, P2, P3, P1x, P1y, P2x, P2y, N1, N2,
+        f1, f2, f1E, f2E, T1, T2, fT_max,
+        acc, Fr: (m1 + m2 + m3) * Math.abs(acc), dir, code
+    };
 }</pre>
                 </div>
             </div>
         </section>
 
-        <!-- ======== SLIDE 8 — Canvas & Renderização ======== -->
+        <!-- ======== SLIDE 8 — Renderização (drawMain) ======== -->
         <section class="slide" data-slide="8">
             <div class="slide-content">
                 <div class="slide-label">07</div>
-                <h2 class="slide-title">Canvas 2D & Renderização</h2>
-                <p class="slide-desc">Todo o diagrama é desenhado programaticamente usando a API Canvas 2D com suporte a HiDPI.</p>
-                <div class="two-col">
-                    <div class="col">
-                        <div class="render-features">
-                            <div class="render-item">
-                                <div class="render-num">01</div>
-                                <div>
-                                    <h4>HiDPI / Retina</h4>
-                                    <p>Resolução automática baseada em <code>devicePixelRatio</code> para telas de alta densidade.</p>
-                                </div>
-                            </div>
-                            <div class="render-item">
-                                <div class="render-num">02</div>
-                                <div>
-                                    <h4>Geometria Trigonométrica</h4>
-                                    <p>O triângulo, blocos e cordas são posicionados via <code>sin(α)</code> e <code>cos(α)</code>.</p>
-                                </div>
-                            </div>
-                            <div class="render-item">
-                                <div class="render-num">03</div>
-                                <div>
-                                    <h4>Animação com rAF</h4>
-                                    <p><code>requestAnimationFrame</code> movimenta os blocos no sentido calculado, com offset suave.</p>
-                                </div>
-                            </div>
-                            <div class="render-item">
-                                <div class="render-num">04</div>
-                                <div>
-                                    <h4>Elementos Visuais</h4>
-                                    <p>Polia, cordas tracejadas, setas direcionais e rótulos para cada bloco.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="code-preview compact">
-                            <div class="code-header">
-                                <span class="code-dot red"></span>
-                                <span class="code-dot yellow"></span>
-                                <span class="code-dot green"></span>
-                                <span class="code-filename">hiDPI Canvas Setup</span>
-                            </div>
-                            <pre class="code-body"><span class="kw">function</span> <span class="fn">hiDPI</span>(canvas, w, h) {
-    <span class="kw">const</span> dpr = devicePixelRatio || <span class="num">1</span>;
-    canvas.width  = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width  = w + <span class="str">'px'</span>;
-    canvas.style.height = h + <span class="str">'px'</span>;
-    <span class="kw">const</span> ctx = canvas.<span class="fn">getContext</span>(<span class="str">'2d'</span>);
-    ctx.<span class="fn">setTransform</span>(dpr,<span class="num">0</span>,<span class="num">0</span>,dpr,<span class="num">0</span>,<span class="num">0</span>);
-    <span class="kw">return</span> ctx;
-}</pre>
-                        </div>
-                        <div class="code-preview compact" style="margin-top: 1rem;">
-                            <div class="code-header">
-                                <span class="code-dot red"></span>
-                                <span class="code-dot yellow"></span>
-                                <span class="code-dot green"></span>
-                                <span class="code-filename">Animation Loop</span>
-                            </div>
-                            <pre class="code-body"><span class="kw">function</span> <span class="fn">tick</span>() {
-    <span class="kw">if</span> (!anim) <span class="kw">return</span>;
-    <span class="kw">const</span> d = res.code === <span class="str">'up'</span> ? <span class="num">1</span> : -<span class="num">1</span>;
-    animOff += d * <span class="num">0.012</span>;
-    <span class="fn">drawMain</span>(res);
-    animId = <span class="fn">requestAnimationFrame</span>(tick);
-}</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ======== SLIDE 9 — Integração da Interface ======== -->
-        <section class="slide" data-slide="9">
-            <div class="slide-content">
-                <div class="slide-label">08</div>
-                <h2 class="slide-title">Integração da Interface</h2>
-                <p class="slide-desc">Como os inputs do usuário atualizam o estado do simulador e re-renderizam os resultados em tempo real.</p>
+                <h2 class="slide-title">Renderização Canvas (drawMain)</h2>
+                <p class="slide-desc">O desenho da simulação aplica trigonometria e transformações do Canvas 2D sem bibliotecas gráficas.</p>
                 
-                <div class="code-preview">
+                <div class="code-preview compact">
                     <div class="code-header">
                         <span class="code-dot red"></span>
                         <span class="code-dot yellow"></span>
                         <span class="code-dot green"></span>
-                        <span class="code-filename">Event Listeners & Atualização</span>
+                        <span class="code-filename">simulador/script.js — Engine Gráfica</span>
                     </div>
-                    <pre class="code-body"><span class="cm">// Atualiza os valores ao mover os sliders</span>
-<span class="kw">const</span> inputs = <span class="fn">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">'input[type="range"]'</span>);
-inputs.<span class="fn">forEach</span>(input => {
-    input.<span class="fn">addEventListener</span>(<span class="str">'input'</span>, () => {
-        <span class="cm">// 1. Sincroniza o valor do badge visual</span>
-        <span class="fn">updateBadge</span>(input);
-        
-        <span class="cm">// 2. Recalcula todas as forças e acelerações</span>
-        <span class="kw">const</span> results = <span class="fn">calc</span>();
-        
-        <span class="cm">// 3. Atualiza as tabelas de força na UI</span>
-        <span class="fn">updateTables</span>(results);
-        
-        <span class="cm">// 4. Solicita um novo frame no Canvas para fluidez 60fps</span>
-        <span class="fn">requestAnimationFrame</span>(() => <span class="fn">drawMain</span>(results));
-    });
-});</pre>
-                </div>
-                <div class="code-notes" style="margin-top: 1.5rem; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 8px;">
-                    <p style="margin: 0; font-size: 0.95rem; color: #a0a0b0; line-height: 1.5;"><strong>Arquitetura Reativa:</strong> A ausência de frameworks (como React ou Vue) exige que o gerenciamento de estado seja feito manualmente. O evento <code>input</code> garante que os cálculos algébricos rigorosos, a tabela de resultados e o Canvas permaneçam sempre em total sincronia sem necessidade de recarregar a página.</p>
+                    <pre class="code-body"><span class="cm">// ── Canvas principal ──</span>
+<span class="kw">function</span> <span class="fn">drawMain</span>(r) {
+    <span class="kw">const</span> W = 900, H = 460;
+    <span class="kw">const</span> ctx = <span class="fn">hiDPI</span>(dom.canvas, W, H);
+    ctx.<span class="fn">clearRect</span>(0, 0, W, H);
+
+    <span class="cm">// 1. Vértices do Triângulo calculados por trigonometria simples</span>
+    <span class="kw">const</span> alpha = r ? r.alpha : <span class="fn">rad</span>(30);
+    <span class="kw">const</span> hyp = 360;
+    <span class="kw">const</span> Bx = 600, By = 400;
+    <span class="kw">const</span> Ax = Bx - hyp * Math.cos(alpha), Ay = By;
+    <span class="kw">const</span> Cx = Bx, Cy = By - hyp * Math.sin(alpha);
+
+    <span class="cm">// Chão</span>
+    ctx.strokeStyle = '#2a2a2a';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(40, By); ctx.lineTo(W - 40, By); ctx.stroke();
+
+    <span class="cm">// Triângulo</span>
+    ctx.fillStyle = 'rgba(60,60,90,0.15)';
+    ctx.strokeStyle = '#3a3a5a';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(Ax, Ay); ctx.lineTo(Bx, By); ctx.lineTo(Cx, Cy); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+
+    <span class="cm">// Ângulo</span>
+    ctx.strokeStyle = '#6c9ef8';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.arc(Ax, Ay, 35, -alpha, 0); ctx.stroke();
+    ctx.fillStyle = '#6c9ef8';
+    ctx.font = '500 12px Inter';
+    ctx.fillText('α', Ax + 40 * Math.cos(alpha / 2), Ay - 14);
+
+    <span class="cm">// Ângulo reto</span>
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(Bx - 12, By); ctx.lineTo(Bx - 12, By - 12); ctx.lineTo(Bx, By - 12);
+    ctx.stroke();
+
+    <span class="cm">// 2. Posição dos blocos ao longo do eixo rotacionado, sensível à animação</span>
+    <span class="kw">const</span> bW = 48, bH = 30;
+    <span class="kw">const</span> t1 = 0.28 + (anim ? animOff * 0.08 : 0);
+    <span class="kw">const</span> t2 = 0.55 + (anim ? animOff * 0.08 : 0);
+    <span class="kw">const</span> p = t =&gt; ({ x: Ax + (Cx - Ax) * t, y: Ay + (Cy - Ay) * t });
+    <span class="kw">const</span> pos1 = <span class="fn">p</span>(t1), pos2 = <span class="fn">p</span>(t2);
+
+    <span class="kw">function</span> <span class="fn">drawBlock</span>(px, py, col, label) {
+        ctx.save(); ctx.translate(px, py); ctx.rotate(-alpha);
+        ctx.fillStyle = col;
+        <span class="fn">rRect</span>(ctx, -bW / 2, -bH, bW, bH, 4); ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.lineWidth = 1;
+        <span class="fn">rRect</span>(ctx, -bW / 2, -bH, bW, bH, 4); ctx.stroke();
+        ctx.fillStyle = '#fff';
+        ctx.font = '600 11px Inter';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(label, 0, -bH / 2);
+        ctx.restore();
+    }
+
+    <span class="fn">drawBlock</span>(pos1.x, pos1.y, '#c05050', 'm₁');
+    <span class="fn">drawBlock</span>(pos2.x, pos2.y, '#40a098', 'm₂');
+
+    <span class="cm">// Cordas</span>
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath(); ctx.moveTo(pos1.x, pos1.y); ctx.lineTo(pos2.x, pos2.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pos2.x, pos2.y);
+    ctx.lineTo(Cx - 14 * Math.sin(alpha), Cy - 14 * Math.cos(alpha));
+    ctx.stroke();
+
+    <span class="cm">// Polia</span>
+    <span class="kw">const</span> pR = 14;
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.arc(Cx, Cy, pR, 0, Math.PI * 2);
+    ctx.fillStyle = '#1a1a2a'; ctx.fill();
+    ctx.strokeStyle = '#555'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.arc(Cx, Cy, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#777'; ctx.fill();
+
+    <span class="cm">// 3. Renderização do Bloco m3 no ar</span>
+    <span class="kw">const</span> m3X = Cx + pR + 18;
+    <span class="kw">const</span> m3Off = anim ? animOff * 14 : 0;
+    <span class="kw">const</span> m3Y = Cy + 95 + m3Off;
+    <span class="kw">const</span> m3S = 42;
+    <span class="cm">// Corda descendo...</span>
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 1.5; ctx.setLineDash([5, 4]);
+    ctx.beginPath(); ctx.moveTo(Cx + pR, Cy); ctx.lineTo(m3X, m3Y - m3S / 2); ctx.stroke();
+    ctx.setLineDash([]);
+    <span class="cm">// Bloco descendo...</span>
+    ctx.fillStyle = '#b8a030';
+    <span class="fn">rRect</span>(ctx, m3X - m3S / 2, m3Y - m3S / 2, m3S, m3S, 4); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1;
+    <span class="fn">rRect</span>(ctx, m3X - m3S / 2, m3Y - m3S / 2, m3S, m3S, 4); ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.font = '600 11px Inter';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('m₃', m3X, m3Y);
+
+    <span class="cm">// 4. Seta indicativa calculada conforme a direção de 'calc'</span>
+    <span class="kw">if</span> (r &amp;&amp; r.code !== 'eq') {
+        <span class="kw">const</span> mt = 0.75, mp = <span class="fn">p</span>(mt);
+        <span class="kw">const</span> d = r.code === 'up' ? 1 : -1;
+        <span class="kw">const</span> dx = (Cx - Ax) / hyp * d, dy = (Cy - Ay) / hyp * d;
+        ctx.strokeStyle = ctx.fillStyle = r.code === 'up' ? '#5ab868' : '#d06060';
+        ctx.lineWidth = 2.5;
+        <span class="fn">arrow</span>(ctx, mp.x - dx * 18, mp.y - dy * 18, mp.x + dx * 18, mp.y + dy * 18, 9);
+    }
+
+    <span class="cm">// Info</span>
+    <span class="kw">if</span> (r) {
+        ctx.fillStyle = '#555'; ctx.font = '500 11px Inter'; ctx.textAlign = 'center';
+        ctx.fillText(`α=${r.deg}°   μₑ=${r.muE}   μ𝒸=${r.muK}`, (Ax + Bx) / 2, By + 20);
+    }
+}
+
+<span class="kw">function</span> <span class="fn">arrow</span>(ctx, x1, y1, x2, y2, h) {
+    <span class="kw">const</span> a = Math.atan2(y2 - y1, x2 - x1);
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x2, y2);
+    ctx.lineTo(x2 - h * Math.cos(a - 0.4), y2 - h * Math.sin(a - 0.4));
+    ctx.lineTo(x2 - h * Math.cos(a + 0.4), y2 - h * Math.sin(a + 0.4));
+    ctx.closePath(); ctx.fill();
+}</pre>
                 </div>
             </div>
         </section>
 
-        <!-- ======== SLIDE 10 — Resolução Passo a Passo ======== -->
-        <section class="slide" data-slide="10">
+        <!-- ======== SLIDE 9 — Resolução Passo a Passo ======== -->
+        <section class="slide" data-slide="9">
             <div class="slide-content">
-                <div class="slide-label">09</div>
+                <div class="slide-label">08</div>
                 <h2 class="slide-title">Resolução Passo a Passo</h2>
                 <p class="slide-desc">O simulador gera automaticamente a solução algébrica completa, mostrando cada etapa para fins didáticos.</p>
                 <div class="steps-showcase">
@@ -529,40 +621,52 @@ inputs.<span class="fn">forEach</span>(input => {
             </div>
         </section>
 
-        <!-- ======== SLIDE 11 — Funcionalidades da UI ======== -->
-        <section class="slide" data-slide="11">
+        <!-- ======== SLIDE 10 — Interface & Experiência ======== -->
+        <section class="slide" data-slide="10">
             <div class="slide-content">
-                <div class="slide-label">10</div>
+                <div class="slide-label">09</div>
                 <h2 class="slide-title">Interface & Experiência</h2>
                 <p class="slide-desc">Design moderno dark-mode com atualização em tempo real e feedback visual imediato.</p>
                 <div class="ui-features">
                     <div class="ui-card">
-                        <div class="ui-icon">⚡</div>
+                        <div class="ui-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6c9ef8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        </div>
                         <h4>Tempo Real</h4>
                         <p>Sliders atualizam o canvas e resultados instantaneamente sem recarregar.</p>
                     </div>
                     <div class="ui-card">
-                        <div class="ui-icon">🎨</div>
+                        <div class="ui-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a67cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        </div>
                         <h4>Dark Mode</h4>
                         <p>Interface escura com CSS Custom Properties e paleta de cores harmoniosa.</p>
                     </div>
                     <div class="ui-card">
-                        <div class="ui-icon">📊</div>
+                        <div class="ui-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6fcf80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
+                        </div>
                         <h4>Tabelas Detalhadas</h4>
                         <p>Forças de cada bloco organizadas com fórmula e valor numérico.</p>
                     </div>
                     <div class="ui-card">
-                        <div class="ui-icon">📐</div>
+                        <div class="ui-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e0c040" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" x2="21" y1="6" y2="6"/><line x1="10" x2="21" y1="12" y2="12"/><line x1="10" x2="21" y1="18" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+                        </div>
                         <h4>Resolução Algébrica</h4>
                         <p>8 passos detalhados com formatação matemática e destaques visuais.</p>
                     </div>
                     <div class="ui-card">
-                        <div class="ui-icon">📱</div>
+                        <div class="ui-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e06060" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                        </div>
                         <h4>Responsivo</h4>
                         <p>Layout adaptável com media queries para desktop, tablet e mobile.</p>
                     </div>
                     <div class="ui-card">
-                        <div class="ui-icon">🎬</div>
+                        <div class="ui-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#50b8b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                        </div>
                         <h4>Animação</h4>
                         <p>Visualização do movimento dos blocos via requestAnimationFrame a 60fps.</p>
                     </div>
@@ -570,10 +674,10 @@ inputs.<span class="fn">forEach</span>(input => {
             </div>
         </section>
 
-        <!-- ======== SLIDE 12 — Aplicações ======== -->
-        <section class="slide" data-slide="12">
+        <!-- ======== SLIDE 11 — Aplicações ======== -->
+        <section class="slide" data-slide="11">
             <div class="slide-content">
-                <div class="slide-label">11</div>
+                <div class="slide-label">10</div>
                 <h2 class="slide-title">Aplicações no Mundo Real</h2>
                 <p class="slide-desc">O modelo de plano inclinado com atrito e polias é fundamental em diversas áreas da engenharia.</p>
                 <div class="apps-grid">
@@ -609,29 +713,22 @@ inputs.<span class="fn">forEach</span>(input => {
             </div>
         </section>
 
-        <!-- ======== SLIDE 13 — Agradecimentos ======== -->
-        <section class="slide slide-cover" data-slide="13">
-            <div class="cover-bg-orbs">
-                <div class="orb orb-1"></div>
-                <div class="orb orb-2"></div>
-                <div class="orb orb-3"></div>
-            </div>
-            <div class="slide-content cover-content">
-                <div class="cover-badge end-badge">Conclusão</div>
-                <h2 class="cover-title end-title">Agradecimentos</h2>
-                <p class="cover-subtitle" style="max-width: 600px; margin: 1.5rem auto; font-size: 1.15rem; line-height: 1.6; color: #b0b0c0;">
-                    Trabalho acadêmico apresentado para a disciplina de <strong>Física Geral</strong>.<br><br>
-                    Nosso muito obrigado ao professor pela orientação e aos colegas pelas contribuições fundamentais que tornaram o projeto possível!
+        <!-- ======== SLIDE 12 — Agradecimentos ======== -->
+        <section class="slide" data-slide="12">
+            <div class="slide-content" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh;">
+                <div style="font-family: var(--mono); font-size: 0.9rem; font-weight: 600; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem;">Conclusão</div>
+                
+                <h2 style="font-size: 3.5rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem; line-height: 1.2;">Agradecimentos</h2>
+                
+                <p style="font-size: 1.2rem; color: var(--text2); max-width: 650px; margin: 0 auto 3rem; line-height: 1.6;">
+                    Trabalho acadêmico apresentado para a disciplina de <strong>Física</strong>.<br><br>
+                    Agradecemos ao professor pela orientação e aos colegas pelas contribuições durante o desenvolvimento deste projeto.
                 </p>
-                <a href="../simulador/index.html" class="demo-btn" target="_blank" style="margin-top: 1rem;">
+
+                <a href="../simulador/index.html" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.8rem; background: var(--accent); color: #fff; font-family: var(--font); font-size: 0.95rem; font-weight: 600; border: none; border-radius: 50px; text-decoration: none; box-shadow: 0 4px 20px rgba(108, 158, 248, 0.3);" target="_blank">
                     <i data-lucide="external-link" style="width: 18px; height: 18px;"></i>
                     Abrir Simulador
                 </a>
-                <div class="end-techs" style="margin-top: 3.5rem;">
-                    <span class="tech-pill">Projeto Acadêmico</span>
-                    <span class="tech-pill">Física 2026</span>
-                    <span class="tech-pill">Open Source</span>
-                </div>
             </div>
         </section>
 
