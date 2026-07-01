@@ -525,7 +525,7 @@
             text: 'Com o sistema em movimento, aplicamos a <strong>2ª Lei de Newton</strong> (ΣF = ma) ao conjunto dos 3 blocos. O atrito agora é <strong>cinético</strong> (μc), que se opõe ao sentido do deslocamento. O sinal do atrito na equação muda conforme os blocos sobem ou descem a rampa.',
         },
         '8': {
-            text: 'As <strong>trações T₁ e T₂</strong> são calculadas isolando cada bloco individualmente e aplicando F = ma. T₁ conecta m₁ a m₂, e T₂ conecta m₂ a m₃ via polia. Note que as fórmulas mudam conforme o sentido do movimento, pois o atrito e a aceleração trocam de sinal.',
+            text: 'As <strong>trações T₁ e T₂</strong> são calculadas isolando cada bloco individualmente e aplicando Fr = m · a. T₁ conecta m₁ a m₂, e T₂ conecta m₂ a m₃ via polia. Note que as fórmulas mudam conforme o sentido do movimento, pois o atrito e a aceleração trocam de sinal.',
         },
     };
 

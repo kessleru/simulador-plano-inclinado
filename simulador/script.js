@@ -383,11 +383,13 @@
             ];
         } else if (r.code === 'up') {
             d8 = [
+                `Aplicando Fr = m·a nos blocos isolados:`,
                 `T₁ = m₁(a + g·sinα + μ𝒸·g·cosα) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
                 `T₂ = m₃(g − a) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
             ];
         } else {
             d8 = [
+                `Aplicando Fr = m·a nos blocos isolados:`,
                 `T₁ = m₁(g·sinα − μ𝒸·g·cosα − |a|) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
                 `T₂ = m₃(g + |a|) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
             ];
