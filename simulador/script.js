@@ -103,10 +103,10 @@
       dir = 'Equilíbrio';
       code = 'eq';
       acc = 0;
-      T2 = P3;
       f1E = (Fnet * m1) / (m1 + m2);
       f2E = (Fnet * m2) / (m1 + m2);
-      T1 = P1x + f1E; // Ou: T1 = T2 - f2E (matematicamente equivalentes)
+      T1 = undefined; // Em equilíbrio, as trações não são calculadas
+      T2 = undefined;
       f2 = 0;
     } else {
       f1 = muK * N1;
@@ -372,16 +372,26 @@
       ['Aceleração', fmt(r.acc), 'm/s²'],
       ['Força Resultante', fmt(r.Fr), 'N'],
       ['Sentido', r.dir, ''],
-      ['Tensão T₁', fmt(Math.abs(r.T1)), 'N'],
-      ['Tensão T₂', fmt(Math.abs(r.T2)), 'N'],
+    ];
+
+    // Só mostra trações quando há movimento
+    if (r.code !== 'eq') {
+      items.push(
+        ['Tensão T₁', fmt(Math.abs(r.T1)), 'N'],
+        ['Tensão T₂', fmt(Math.abs(r.T2)), 'N']
+      );
+    }
+
+    items.push(
       ['Peso m₁', fmt(r.P1), 'N'],
       ['Peso m₂', fmt(r.P2), 'N'],
       ['Peso m₃', fmt(r.P3), 'N'],
       ['Normal N₁', fmt(r.N1), 'N'],
       ['Normal N₂', fmt(r.N2), 'N'],
       ['Atrito f₁', r.code === 'eq' ? fmt(Math.abs(r.f1E)) : fmt(r.f1), 'N'],
-      ['Atrito f₂', r.code === 'eq' ? fmt(Math.abs(r.f2E)) : fmt(r.f2), 'N'],
-    ];
+      ['Atrito f₂', r.code === 'eq' ? fmt(Math.abs(r.f2E)) : fmt(r.f2), 'N']
+    );
+
     dom.grid.innerHTML = items
       .map(
         (i) =>
@@ -404,7 +414,7 @@
         )
         .join('');
 
-    dom.tM1.innerHTML = row([
+    const tM1Rows = [
       ['Peso P₁', 'm₁·g', fmt(r.P1)],
       ['Comp. P₁ₓ', 'm₁·g·sin α', fmt(r.P1x)],
       ['Comp. P₁ᵧ', 'm₁·g·cos α', fmt(r.P1y)],
@@ -414,9 +424,13 @@
         r.code === 'eq' ? '(estático)' : 'μ𝒸·N₁',
         r.code === 'eq' ? fmt(Math.abs(r.f1E)) : fmt(r.f1),
       ],
-      ['Tração T₁', '—', fmt(Math.abs(r.T1))],
-    ]);
-    dom.tM2.innerHTML = row([
+    ];
+    if (r.code !== 'eq') {
+      tM1Rows.push(['Tração T₁', '—', fmt(Math.abs(r.T1))]);
+    }
+    dom.tM1.innerHTML = row(tM1Rows);
+
+    const tM2Rows = [
       ['Peso P₂', 'm₂·g', fmt(r.P2)],
       ['Comp. P₂ₓ', 'm₂·g·sin α', fmt(r.P2x)],
       ['Comp. P₂ᵧ', 'm₂·g·cos α', fmt(r.P2y)],
@@ -426,13 +440,20 @@
         r.code === 'eq' ? '(estático)' : 'μ𝒸·N₂',
         r.code === 'eq' ? fmt(Math.abs(r.f2E)) : fmt(r.f2),
       ],
-      ['Tração T₁', '(reação)', fmt(Math.abs(r.T1))],
-      ['Tração T₂', '—', fmt(Math.abs(r.T2))],
-    ]);
-    dom.tM3.innerHTML = row([
-      ['Peso P₃', 'm₃·g', fmt(r.P3)],
-      ['Tração T₂', '—', fmt(Math.abs(r.T2))],
-    ]);
+    ];
+    if (r.code !== 'eq') {
+      tM2Rows.push(
+        ['Tração T₁', '(reação)', fmt(Math.abs(r.T1))],
+        ['Tração T₂', '—', fmt(Math.abs(r.T2))]
+      );
+    }
+    dom.tM2.innerHTML = row(tM2Rows);
+
+    const tM3Rows = [['Peso P₃', 'm₃·g', fmt(r.P3)]];
+    if (r.code !== 'eq') {
+      tM3Rows.push(['Tração T₂', '—', fmt(Math.abs(r.T2))]);
+    }
+    dom.tM3.innerHTML = row(tM3Rows);
   }
 
   // ── Passo a passo ──
@@ -513,28 +534,24 @@
     }
     h += blk('Passo 7 — Aceleração', d7);
 
-    let d8;
-    if (r.code === 'eq') {
-      d8 = [
-        `Sistema em equilíbrio.`,
-        `As trações equilibram F_net.`,
-        `T₂ = m₃·g = <span class="r">${s(Math.abs(r.T2))} N</span>`,
-        `T₁ = P₁ₓ + f₁_ef = <span class="r">${s(Math.abs(r.T1))} N</span>`,
-      ];
-    } else if (r.code === 'up') {
-      d8 = [
-        `Aplicando Fr = m·a nos blocos isolados:`,
-        `T₁ = m₁(a + g·sinα + μ𝒸·g·cosα) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
-        `T₂ = m₃(g − a) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
-      ];
-    } else {
-      d8 = [
-        `Aplicando Fr = m·a nos blocos isolados:`,
-        `T₁ = m₁(g·sinα − μ𝒸·g·cosα − |a|) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
-        `T₂ = m₃(g + |a|) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
-      ];
+    // Passo 8 só é mostrado quando há movimento
+    if (r.code !== 'eq') {
+      let d8;
+      if (r.code === 'up') {
+        d8 = [
+          `Aplicando Fr = m·a nos blocos isolados:`,
+          `T₁ = m₁(a + g·sinα + μ𝒸·g·cosα) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
+          `T₂ = m₃(g − a) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
+        ];
+      } else {
+        d8 = [
+          `Aplicando Fr = m·a nos blocos isolados:`,
+          `T₁ = m₁(g·sinα − μ𝒸·g·cosα − |a|) = <span class="r">${s(Math.abs(r.T1))} N</span>`,
+          `T₂ = m₃(g + |a|) = <span class="r">${s(Math.abs(r.T2))} N</span>`,
+        ];
+      }
+      h += blk('Passo 8 — Trações', d8);
     }
-    h += blk('Passo 8 — Trações', d8);
 
     dom.stepsC.innerHTML = h;
   }
