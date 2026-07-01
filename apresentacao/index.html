@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apresentação acadêmica do PhysicSim — Simulador de Plano Inclinado com Polia">
+    <title>PhysicSim — Apresentação</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="../logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Back to Home -->
+    <a href="../home/index.html" class="back-home" title="Voltar ao Início">
+        <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i>
+        <span>Início</span>
+    </a>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <!-- Navigation -->
+    <nav class="slide-nav" id="slide-nav">
+        <button class="nav-btn" id="btn-prev" aria-label="Slide anterior">
+            <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+        </button>
+        <span class="slide-counter" id="slide-counter">1 / 13</span>
+        <button class="nav-btn" id="btn-next" aria-label="Próximo slide">
+            <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+        </button>
+    </nav>
+
+    <!-- Slide Indicator Dots -->
+    <div class="slide-dots" id="slide-dots"></div>
+
+    <!-- ============================================================ -->
+    <!--  SLIDES                                                       -->
+    <!-- ============================================================ -->
+    <div class="slides-container" id="slides-container">
+
+        <!-- ======== SLIDE 1 — Capa ======== -->
+        <section class="slide slide-cover" data-slide="1">
+            <div class="cover-bg-orbs">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+            </div>
+            <div class="slide-content cover-content">
+                <div class="cover-badge">Projeto de Física</div>
+                <h1 class="cover-title">Physic<span class="accent">Sim</span></h1>
+                <p class="cover-subtitle">Simulador Interativo de Plano Inclinado com Polia</p>
+                <div class="cover-meta">
+                    <div class="meta-chip">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/></svg>
+                        HTML · CSS · JavaScript
+                    </div>
+                    <div class="meta-chip">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        2026
+                    </div>
+                </div>
+                <div class="cover-hint">
+                    <span class="hint-arrow">↓</span>
+                    Pressione <kbd>→</kbd> ou clique para avançar
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 2 — O Problema ======== -->
+        <section class="slide" data-slide="2">
+            <div class="slide-content">
+                <div class="slide-label">01</div>
+                <h2 class="slide-title">O Problema Físico</h2>
+                <p class="slide-desc">Um sistema clássico da mecânica newtoniana: três blocos conectados por cordas ideais passando por uma polia sem massa.</p>
+                <div class="two-col">
+                    <div class="col">
+                        <div class="feature-card">
+                            <div class="feature-icon" style="background: rgba(192, 80, 80, 0.15); color: #e06060;">m₁</div>
+                            <div>
+                                <h3>Bloco 1</h3>
+                                <p>Sobre o plano inclinado, conectado por corda ao bloco 2. Sujeito a peso, normal, atrito e tração T₁.</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon" style="background: rgba(64, 160, 152, 0.15); color: #50b8b0;">m₂</div>
+                            <div>
+                                <h3>Bloco 2</h3>
+                                <p>Também sobre o plano, entre m₁ e a polia. Sujeito a peso, normal, atrito e trações T₁ e T₂.</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon" style="background: rgba(224, 192, 64, 0.15); color: #e0c040;">m₃</div>
+                            <div>
+                                <h3>Bloco 3</h3>
+                                <p>Pendurado verticalmente pela polia. Seu peso gera a força motriz do sistema.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-diagram">
+                        <canvas id="diagram-overview" width="520" height="380"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 3 — DCL Bloco 1 ======== -->
+        <section class="slide" data-slide="3">
+            <div class="slide-content">
+                <div class="slide-label">02</div>
+                <h2 class="slide-title">Diagrama de Corpo Livre — m₁</h2>
+                <p class="slide-desc">Análise isolada das forças que atuam no bloco 1 sobre o plano inclinado.</p>
+                <div class="two-col">
+                    <div class="col">
+                        <canvas id="dcl-m1" width="440" height="400"></canvas>
+                    </div>
+                    <div class="col">
+                        <div class="force-list">
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #6fcf80;"></span>
+                                <div>
+                                    <strong>Peso P₁ = m₁·g</strong>
+                                    <p>Decomposto em P₁ₓ = m₁·g·sin α (paralelo) e P₁ᵧ = m₁·g·cos α (perpendicular)</p>
+                                </div>
+                            </div>
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #60a0f0;"></span>
+                                <div>
+                                    <strong>Normal N₁ = m₁·g·cos α</strong>
+                                    <p>Reação do plano, perpendicular à superfície, anula P₁ᵧ</p>
+                                </div>
+                            </div>
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #f0a040;"></span>
+                                <div>
+                                    <strong>Atrito f₁ = μ·N₁</strong>
+                                    <p>Opõe-se ao movimento. Usa μₑ (estático) ou μc (cinético)</p>
+                                </div>
+                            </div>
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #e06060;"></span>
+                                <div>
+                                    <strong>Tração T₁</strong>
+                                    <p>Força da corda que conecta m₁ a m₂, ao longo do plano</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 4 — DCL Bloco 2 ======== -->
+        <section class="slide" data-slide="4">
+            <div class="slide-content">
+                <div class="slide-label">03</div>
+                <h2 class="slide-title">Diagrama de Corpo Livre — m₂</h2>
+                <p class="slide-desc">O bloco intermediário recebe duas trações distintas: T₁ (de m₁) e T₂ (da polia para m₃).</p>
+                <div class="two-col">
+                    <div class="col">
+                        <canvas id="dcl-m2" width="440" height="400"></canvas>
+                    </div>
+                    <div class="col">
+                        <div class="force-list">
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #6fcf80;"></span>
+                                <div>
+                                    <strong>Peso P₂ = m₂·g</strong>
+                                    <p>Componentes P₂ₓ = m₂·g·sin α e P₂ᵧ = m₂·g·cos α</p>
+                                </div>
+                            </div>
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #60a0f0;"></span>
+                                <div>
+                                    <strong>Normal N₂ = m₂·g·cos α</strong>
+                                    <p>Reação perpendicular do plano inclinado</p>
+                                </div>
+                            </div>
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #f0a040;"></span>
+                                <div>
+                                    <strong>Atrito f₂ = μ·N₂</strong>
+                                    <p>Opõe-se ao sentido do movimento relativo</p>
+                                </div>
+                            </div>
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #e06060;"></span>
+                                <div>
+                                    <strong>Tração T₁ (rampa abaixo)</strong>
+                                    <p>Puxado pelo bloco m₁ no sentido da rampa para baixo</p>
+                                </div>
+                            </div>
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #c080e0;"></span>
+                                <div>
+                                    <strong>Tração T₂ (rampa acima)</strong>
+                                    <p>Puxado pela corda que passa pela polia, conectada a m₃</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 5 — DCL Bloco 3 ======== -->
+        <section class="slide" data-slide="5">
+            <div class="slide-content">
+                <div class="slide-label">04</div>
+                <h2 class="slide-title">Diagrama de Corpo Livre — m₃</h2>
+                <p class="slide-desc">O bloco suspenso é o mais simples: apenas seu peso e a tração da corda atuam sobre ele.</p>
+                <div class="two-col">
+                    <div class="col">
+                        <canvas id="dcl-m3" width="440" height="400"></canvas>
+                    </div>
+                    <div class="col">
+                        <div class="force-list">
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #6fcf80;"></span>
+                                <div>
+                                    <strong>Peso P₃ = m₃·g</strong>
+                                    <p>Força gravitacional atuando verticalmente para baixo</p>
+                                </div>
+                            </div>
+                            <div class="force-item">
+                                <span class="force-dot" style="background: #c080e0;"></span>
+                                <div>
+                                    <strong>Tração T₂ (para cima)</strong>
+                                    <p>Força da corda que passa pela polia, suspendendo o bloco</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equation-box">
+                            <h4>2ª Lei de Newton para m₃</h4>
+                            <div class="eq-line">P₃ − T₂ = m₃ · a</div>
+                            <div class="eq-line highlight">T₂ = m₃ · (g − a)</div>
+                            <p class="eq-note">Se o sistema está em equilíbrio (a = 0), então T₂ = m₃·g</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 6 — Equações ======== -->
+        <section class="slide" data-slide="6">
+            <div class="slide-content">
+                <div class="slide-label">05</div>
+                <h2 class="slide-title">Equações do Sistema</h2>
+                <p class="slide-desc">O algoritmo central resolve o sistema em etapas lógicas, verificando primeiro o equilíbrio estático.</p>
+                <div class="equations-grid">
+                    <div class="eq-card">
+                        <div class="eq-card-header">
+                            <span class="eq-step">1</span>
+                            <span>Teste de Equilíbrio</span>
+                        </div>
+                        <div class="eq-card-body">
+                            <code>F_net = P₃ − (P₁ₓ + P₂ₓ)</code>
+                            <code>f_max = μₑ · (N₁ + N₂)</code>
+                            <code class="hl">|F_net| ≤ f_max → Equilíbrio</code>
+                        </div>
+                    </div>
+                    <div class="eq-card">
+                        <div class="eq-card-header">
+                            <span class="eq-step">2</span>
+                            <span>Aceleração (se move)</span>
+                        </div>
+                        <div class="eq-card-body">
+                            <code>f_c = μc · (N₁ + N₂)</code>
+                            <code class="hl">a = (P₃ − P₁ₓ − P₂ₓ ∓ f_c) / (m₁+m₂+m₃)</code>
+                            <code class="note">+ f_c se desce, − f_c se sobe</code>
+                        </div>
+                    </div>
+                    <div class="eq-card">
+                        <div class="eq-card-header">
+                            <span class="eq-step">3</span>
+                            <span>Trações (blocos sobem)</span>
+                        </div>
+                        <div class="eq-card-body">
+                            <code>T₁ = m₁(a + g·sinα + μc·g·cosα)</code>
+                            <code>T₂ = m₃(g − a)</code>
+                        </div>
+                    </div>
+                    <div class="eq-card">
+                        <div class="eq-card-header">
+                            <span class="eq-step">4</span>
+                            <span>Trações (blocos descem)</span>
+                        </div>
+                        <div class="eq-card-body">
+                            <code>T₁ = m₁(g·sinα − μc·g·cosα − |a|)</code>
+                            <code>T₂ = m₃(g + |a|)</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 7 — Arquitetura do Código ======== -->
+        <section class="slide" data-slide="7">
+            <div class="slide-content">
+                <div class="slide-label">06</div>
+                <h2 class="slide-title">Arquitetura do Código</h2>
+                <p class="slide-desc">O simulador é uma Single Page Application em Vanilla JS, dividida em módulos lógicos claros.</p>
+                <div class="arch-grid">
+                    <div class="arch-card">
+                        <div class="arch-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e06060" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <h3>index.html</h3>
+                        <p>Estrutura semântica com <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, grid responsivo, inputs com sliders e canvas.</p>
+                        <span class="arch-tag">141 linhas</span>
+                    </div>
+                    <div class="arch-card">
+                        <div class="arch-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6c9ef8" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <h3>style.css</h3>
+                        <p>Design system com CSS Custom Properties, dark mode, tipografia Inter + JetBrains Mono, responsivo.</p>
+                        <span class="arch-tag">342 linhas</span>
+                    </div>
+                    <div class="arch-card">
+                        <div class="arch-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e0c040" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        </div>
+                        <h3>script.js</h3>
+                        <p>IIFE modular: motor de física, renderização Canvas 2D HiDPI, animações com requestAnimationFrame.</p>
+                        <span class="arch-tag">479 linhas</span>
+                    </div>
+                </div>
+
+                <div class="code-preview">
+                    <div class="code-header">
+                        <span class="code-dot red"></span>
+                        <span class="code-dot yellow"></span>
+                        <span class="code-dot green"></span>
+                        <span class="code-filename">script.js — Motor de Física</span>
+                    </div>
+                    <pre class="code-body"><span class="kw">function</span> <span class="fn">calc</span>() {
+    <span class="kw">const</span> P1x = m1 * g * <span class="fn">Math.sin</span>(alpha);
+    <span class="kw">const</span> N1  = m1 * g * <span class="fn">Math.cos</span>(alpha);
+    <span class="kw">const</span> Fnet = P3 - (P1x + P2x);
+
+    <span class="cm">// Teste de equilíbrio estático</span>
+    <span class="kw">if</span> (<span class="fn">Math.abs</span>(Fnet) <= fT_max) {
+        dir = <span class="str">'Equilíbrio'</span>;
+        acc = <span class="num">0</span>;
+    } <span class="kw">else</span> {
+        <span class="cm">// Movimento com atrito cinético</span>
+        acc = (P3 - P1x - P2x - fT) / (m1+m2+m3);
+    }
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 8 — Canvas & Renderização ======== -->
+        <section class="slide" data-slide="8">
+            <div class="slide-content">
+                <div class="slide-label">07</div>
+                <h2 class="slide-title">Canvas 2D & Renderização</h2>
+                <p class="slide-desc">Todo o diagrama é desenhado programaticamente usando a API Canvas 2D com suporte a HiDPI.</p>
+                <div class="two-col">
+                    <div class="col">
+                        <div class="render-features">
+                            <div class="render-item">
+                                <div class="render-num">01</div>
+                                <div>
+                                    <h4>HiDPI / Retina</h4>
+                                    <p>Resolução automática baseada em <code>devicePixelRatio</code> para telas de alta densidade.</p>
+                                </div>
+                            </div>
+                            <div class="render-item">
+                                <div class="render-num">02</div>
+                                <div>
+                                    <h4>Geometria Trigonométrica</h4>
+                                    <p>O triângulo, blocos e cordas são posicionados via <code>sin(α)</code> e <code>cos(α)</code>.</p>
+                                </div>
+                            </div>
+                            <div class="render-item">
+                                <div class="render-num">03</div>
+                                <div>
+                                    <h4>Animação com rAF</h4>
+                                    <p><code>requestAnimationFrame</code> movimenta os blocos no sentido calculado, com offset suave.</p>
+                                </div>
+                            </div>
+                            <div class="render-item">
+                                <div class="render-num">04</div>
+                                <div>
+                                    <h4>Elementos Visuais</h4>
+                                    <p>Polia, cordas tracejadas, setas direcionais e rótulos para cada bloco.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="code-preview compact">
+                            <div class="code-header">
+                                <span class="code-dot red"></span>
+                                <span class="code-dot yellow"></span>
+                                <span class="code-dot green"></span>
+                                <span class="code-filename">hiDPI Canvas Setup</span>
+                            </div>
+                            <pre class="code-body"><span class="kw">function</span> <span class="fn">hiDPI</span>(canvas, w, h) {
+    <span class="kw">const</span> dpr = devicePixelRatio || <span class="num">1</span>;
+    canvas.width  = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width  = w + <span class="str">'px'</span>;
+    canvas.style.height = h + <span class="str">'px'</span>;
+    <span class="kw">const</span> ctx = canvas.<span class="fn">getContext</span>(<span class="str">'2d'</span>);
+    ctx.<span class="fn">setTransform</span>(dpr,<span class="num">0</span>,<span class="num">0</span>,dpr,<span class="num">0</span>,<span class="num">0</span>);
+    <span class="kw">return</span> ctx;
+}</pre>
+                        </div>
+                        <div class="code-preview compact" style="margin-top: 1rem;">
+                            <div class="code-header">
+                                <span class="code-dot red"></span>
+                                <span class="code-dot yellow"></span>
+                                <span class="code-dot green"></span>
+                                <span class="code-filename">Animation Loop</span>
+                            </div>
+                            <pre class="code-body"><span class="kw">function</span> <span class="fn">tick</span>() {
+    <span class="kw">if</span> (!anim) <span class="kw">return</span>;
+    <span class="kw">const</span> d = res.code === <span class="str">'up'</span> ? <span class="num">1</span> : -<span class="num">1</span>;
+    animOff += d * <span class="num">0.012</span>;
+    <span class="fn">drawMain</span>(res);
+    animId = <span class="fn">requestAnimationFrame</span>(tick);
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 9 — Integração da Interface ======== -->
+        <section class="slide" data-slide="9">
+            <div class="slide-content">
+                <div class="slide-label">08</div>
+                <h2 class="slide-title">Integração da Interface</h2>
+                <p class="slide-desc">Como os inputs do usuário atualizam o estado do simulador e re-renderizam os resultados em tempo real.</p>
+                
+                <div class="code-preview">
+                    <div class="code-header">
+                        <span class="code-dot red"></span>
+                        <span class="code-dot yellow"></span>
+                        <span class="code-dot green"></span>
+                        <span class="code-filename">Event Listeners & Atualização</span>
+                    </div>
+                    <pre class="code-body"><span class="cm">// Atualiza os valores ao mover os sliders</span>
+<span class="kw">const</span> inputs = <span class="fn">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">'input[type="range"]'</span>);
+inputs.<span class="fn">forEach</span>(input => {
+    input.<span class="fn">addEventListener</span>(<span class="str">'input'</span>, () => {
+        <span class="cm">// 1. Sincroniza o valor do badge visual</span>
+        <span class="fn">updateBadge</span>(input);
+        
+        <span class="cm">// 2. Recalcula todas as forças e acelerações</span>
+        <span class="kw">const</span> results = <span class="fn">calc</span>();
+        
+        <span class="cm">// 3. Atualiza as tabelas de força na UI</span>
+        <span class="fn">updateTables</span>(results);
+        
+        <span class="cm">// 4. Solicita um novo frame no Canvas para fluidez 60fps</span>
+        <span class="fn">requestAnimationFrame</span>(() => <span class="fn">drawMain</span>(results));
+    });
+});</pre>
+                </div>
+                <div class="code-notes" style="margin-top: 1.5rem; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 8px;">
+                    <p style="margin: 0; font-size: 0.95rem; color: #a0a0b0; line-height: 1.5;"><strong>Arquitetura Reativa:</strong> A ausência de frameworks (como React ou Vue) exige que o gerenciamento de estado seja feito manualmente. O evento <code>input</code> garante que os cálculos algébricos rigorosos, a tabela de resultados e o Canvas permaneçam sempre em total sincronia sem necessidade de recarregar a página.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 10 — Resolução Passo a Passo ======== -->
+        <section class="slide" data-slide="10">
+            <div class="slide-content">
+                <div class="slide-label">09</div>
+                <h2 class="slide-title">Resolução Passo a Passo</h2>
+                <p class="slide-desc">O simulador gera automaticamente a solução algébrica completa, mostrando cada etapa para fins didáticos.</p>
+                <div class="steps-showcase">
+                    <div class="step-card">
+                        <div class="step-num">1</div>
+                        <h4>Dados de Entrada</h4>
+                        <p>Massas, ângulo, coeficientes de atrito e gravidade</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-card">
+                        <div class="step-num">2</div>
+                        <h4>Cálculo dos Pesos</h4>
+                        <p>P = m·g para cada bloco</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-card">
+                        <div class="step-num">3</div>
+                        <h4>Decomposição</h4>
+                        <p>Componentes Pₓ e Pᵧ no plano</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-card">
+                        <div class="step-num">4</div>
+                        <h4>Normais</h4>
+                        <p>N = m·g·cos α</p>
+                    </div>
+                </div>
+                <div class="steps-showcase" style="margin-top: 1rem;">
+                    <div class="step-card">
+                        <div class="step-num">5</div>
+                        <h4>Atrito Máximo</h4>
+                        <p>f_max = μₑ·N</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-card">
+                        <div class="step-num">6</div>
+                        <h4>Sentido</h4>
+                        <p>Comparação |F_net| vs f_max</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-card">
+                        <div class="step-num">7</div>
+                        <h4>Aceleração</h4>
+                        <p>2ª Lei de Newton</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-card">
+                        <div class="step-num">8</div>
+                        <h4>Trações</h4>
+                        <p>T₁ e T₂ nas cordas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 11 — Funcionalidades da UI ======== -->
+        <section class="slide" data-slide="11">
+            <div class="slide-content">
+                <div class="slide-label">10</div>
+                <h2 class="slide-title">Interface & Experiência</h2>
+                <p class="slide-desc">Design moderno dark-mode com atualização em tempo real e feedback visual imediato.</p>
+                <div class="ui-features">
+                    <div class="ui-card">
+                        <div class="ui-icon">⚡</div>
+                        <h4>Tempo Real</h4>
+                        <p>Sliders atualizam o canvas e resultados instantaneamente sem recarregar.</p>
+                    </div>
+                    <div class="ui-card">
+                        <div class="ui-icon">🎨</div>
+                        <h4>Dark Mode</h4>
+                        <p>Interface escura com CSS Custom Properties e paleta de cores harmoniosa.</p>
+                    </div>
+                    <div class="ui-card">
+                        <div class="ui-icon">📊</div>
+                        <h4>Tabelas Detalhadas</h4>
+                        <p>Forças de cada bloco organizadas com fórmula e valor numérico.</p>
+                    </div>
+                    <div class="ui-card">
+                        <div class="ui-icon">📐</div>
+                        <h4>Resolução Algébrica</h4>
+                        <p>8 passos detalhados com formatação matemática e destaques visuais.</p>
+                    </div>
+                    <div class="ui-card">
+                        <div class="ui-icon">📱</div>
+                        <h4>Responsivo</h4>
+                        <p>Layout adaptável com media queries para desktop, tablet e mobile.</p>
+                    </div>
+                    <div class="ui-card">
+                        <div class="ui-icon">🎬</div>
+                        <h4>Animação</h4>
+                        <p>Visualização do movimento dos blocos via requestAnimationFrame a 60fps.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 12 — Aplicações ======== -->
+        <section class="slide" data-slide="12">
+            <div class="slide-content">
+                <div class="slide-label">11</div>
+                <h2 class="slide-title">Aplicações no Mundo Real</h2>
+                <p class="slide-desc">O modelo de plano inclinado com atrito e polias é fundamental em diversas áreas da engenharia.</p>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <div class="app-visual">
+                            <i data-lucide="building-2" style="width: 48px; height: 48px; color: #6c9ef8;"></i>
+                        </div>
+                        <h4>Engenharia Civil</h4>
+                        <p>Cálculo de forças em rampas, taludes e estruturas inclinadas. Dimensionamento de escoramentos.</p>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-visual">
+                            <i data-lucide="truck" style="width: 48px; height: 48px; color: #50b8b0;"></i>
+                        </div>
+                        <h4>Transporte & Logística</h4>
+                        <p>Esteiras transportadoras, elevadores de carga e sistemas de correia em mineração.</p>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-visual">
+                            <i data-lucide="clock" style="width: 48px; height: 48px; color: #e0c040;"></i>
+                        </div>
+                        <h4>Máquinas de Atwood</h4>
+                        <p>Elevadores, gruas e sistemas de contrapeso utilizam o mesmo princípio de polia com massas.</p>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-visual">
+                            <i data-lucide="book-open" style="width: 48px; height: 48px; color: #e06060;"></i>
+                        </div>
+                        <h4>Ensino de Física</h4>
+                        <p>Ferramenta didática para ensino de Leis de Newton, decomposição de forças e atrito.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== SLIDE 13 — Agradecimentos ======== -->
+        <section class="slide slide-cover" data-slide="13">
+            <div class="cover-bg-orbs">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+            </div>
+            <div class="slide-content cover-content">
+                <div class="cover-badge end-badge">Conclusão</div>
+                <h2 class="cover-title end-title">Agradecimentos</h2>
+                <p class="cover-subtitle" style="max-width: 600px; margin: 1.5rem auto; font-size: 1.15rem; line-height: 1.6; color: #b0b0c0;">
+                    Trabalho acadêmico apresentado para a disciplina de <strong>Física Geral</strong>.<br><br>
+                    Nosso muito obrigado ao professor pela orientação e aos colegas pelas contribuições fundamentais que tornaram o projeto possível!
+                </p>
+                <a href="../simulador/index.html" class="demo-btn" target="_blank" style="margin-top: 1rem;">
+                    <i data-lucide="external-link" style="width: 18px; height: 18px;"></i>
+                    Abrir Simulador
+                </a>
+                <div class="end-techs" style="margin-top: 3.5rem;">
+                    <span class="tech-pill">Projeto Acadêmico</span>
+                    <span class="tech-pill">Física 2026</span>
+                    <span class="tech-pill">Open Source</span>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Keyboard hint -->
+    <div class="kb-hint" id="kb-hint">
+        <kbd>←</kbd> <kbd>→</kbd> para navegar &nbsp;·&nbsp; <kbd>F</kbd> tela cheia
+    </div>
+
+    <script src="slides.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

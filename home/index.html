@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PhysicSim — Simulador interativo de plano inclinado com polia. Acesse o simulador ou a apresentação acadêmica.">
+    <title>PhysicSim — Início</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="../logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+    <div class="grid-pattern"></div>
+
+    <!-- Content -->
+    <div class="home-container">
+
+        <div class="logo-wrap">
+            <img src="../logo.png" alt="PhysicSim Logo">
+        </div>
+
+        <h1 class="home-title">Physic<span class="accent">Sim</span></h1>
+        <p class="home-subtitle">Simulador Interativo de Plano Inclinado com Polia</p>
+
+        <div class="cards-row">
+
+            <!-- Simulador -->
+            <a href="../simulador/index.html" class="home-card card-sim">
+                <div class="card-icon">
+                    <i data-lucide="settings-2" style="width: 32px; height: 32px; color: #6c9ef8;"></i>
+                </div>
+                <span class="card-tag">Interativo</span>
+                <h2 class="card-title">Simulador</h2>
+                <p class="card-desc">Ajuste massas, ângulo e atrito. Veja resultados em tempo real com animação e resolução passo a passo.</p>
+                <div class="card-features">
+                    <span class="feat-pill">Canvas 2D</span>
+                    <span class="feat-pill">Animação</span>
+                    <span class="feat-pill">Tempo Real</span>
+                    <span class="feat-pill">Passo a Passo</span>
+                </div>
+                <span class="card-action">
+                    Acessar Simulador
+                    <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                </span>
+            </a>
+
+            <!-- Apresentação -->
+            <a href="../apresentacao/index.html" class="home-card card-pres">
+                <div class="card-icon">
+                    <i data-lucide="monitor-play" style="width: 32px; height: 32px; color: #8b5cf6;"></i>
+                </div>
+                <span class="card-tag">Acadêmico</span>
+                <h2 class="card-title">Apresentação</h2>
+                <p class="card-desc">Slides interativos com diagramas de corpo livre, equações, arquitetura do código e aplicações reais.</p>
+                <div class="card-features">
+                    <span class="feat-pill">12 Slides</span>
+                    <span class="feat-pill">DCLs</span>
+                    <span class="feat-pill">Equações</span>
+                    <span class="feat-pill">Código</span>
+                </div>
+                <span class="card-action">
+                    Ver Apresentação
+                    <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                </span>
+            </a>
+
+        </div>
+    </div>
+
+    <footer class="home-footer">PhysicSim © 2026 — Projeto de Física</footer>
+
+    <script src="script.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

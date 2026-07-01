@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simulador de sistema de blocos em plano inclinado com polia.">
+    <title>PhysicSim — Plano Inclinado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="../logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../home/index.html" class="back-home-btn" title="Voltar ao Início">
+                <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i>
+            </a>
+            <img src="../logo.png" alt="PhysicSim Logo" class="site-logo">
+            <div class="header-titles">
+                <h1>PhysicSim</h1>
+                <p>Simulador de Plano Inclinado com Polia</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-left">
+            <!-- Entradas -->
+        <section class="card">
+            <h2>Parâmetros</h2>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="input-m1">m₁ (kg)</label>
+                    <input type="number" id="input-m1" value="5" min="0.1" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label for="input-m2">m₂ (kg)</label>
+                    <input type="number" id="input-m2" value="3" min="0.1" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label for="input-m3">m₃ (kg)</label>
+                    <input type="number" id="input-m3" value="10" min="0.1" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label for="input-angle">Ângulo α (°)</label>
+                    <input type="number" id="input-angle" value="30" min="1" max="89" step="1">
+                    <input type="range" id="input-angle-slider" min="1" max="89" value="30">
+                </div>
+                <div class="input-group">
+                    <label for="input-mu-e">Atrito Estático μₑ</label>
+                    <input type="number" id="input-mu-e" value="0.2" min="0" max="1" step="0.01">
+                    <input type="range" id="input-mu-e-slider" min="0" max="100" value="20">
+                </div>
+                <div class="input-group">
+                    <label for="input-mu-k">Atrito Cinético μ𝒸</label>
+                    <input type="number" id="input-mu-k" value="0.15" min="0" max="1" step="0.01">
+                    <input type="range" id="input-mu-k-slider" min="0" max="100" value="15">
+                </div>
+                <div class="input-group">
+                    <label for="input-g">Gravidade (m/s²)</label>
+                    <input type="number" id="input-g" value="9.81" min="0.1" step="0.01">
+                </div>
+            </div>
+            <div class="button-group">
+                <button id="btn-calculate" class="btn btn-primary">Calcular</button>
+                <button id="btn-clear" class="btn btn-secondary">Limpar</button>
+            </div>
+        </section>
+
+        <!-- Visualização -->
+        <section class="card">
+            <h2>Visualização</h2>
+            <div class="canvas-wrap">
+                <canvas id="main-canvas"></canvas>
+            </div>
+            <div class="animation-bar">
+                <button id="btn-animate" class="btn btn-secondary" disabled>▶ Animar</button>
+                <button id="btn-stop" class="btn btn-secondary" disabled>■ Parar</button>
+                <span id="direction-badge" class="badge hidden"></span>
+            </div>
+        </section>
+
+        <!-- Resultados -->
+        <section id="results-section" class="card hidden">
+            <h2>Resultados</h2>
+            <div id="results-grid" class="results-grid"></div>
+        </section>
+
+        <!-- Tabelas -->
+        <section id="tables-section" class="card hidden">
+            <h2>Tabelas de Forças</h2>
+            <div class="tables-grid">
+                <div class="table-block">
+                    <h3 class="m1-color">Bloco m₁</h3>
+                    <table id="table-m1"><thead><tr><th>Força</th><th>Fórmula</th><th>Valor (N)</th></tr></thead><tbody></tbody></table>
+                </div>
+                <div class="table-block">
+                    <h3 class="m2-color">Bloco m₂</h3>
+                    <table id="table-m2"><thead><tr><th>Força</th><th>Fórmula</th><th>Valor (N)</th></tr></thead><tbody></tbody></table>
+                </div>
+                <div class="table-block">
+                    <h3 class="m3-color">Bloco m₃</h3>
+                    <table id="table-m3"><thead><tr><th>Força</th><th>Fórmula</th><th>Valor (N)</th></tr></thead><tbody></tbody></table>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Passo a passo -->
+        <section id="steps-section" class="card hidden">
+            <h2>Resolução Passo a Passo</h2>
+            <div id="steps-content"></div>
+        </section>
+        </div>
+
+        <aside class="sidebar-right">
+            <section class="card tutorial-card">
+                <h2>Como Usar</h2>
+                <div class="tutorial-content">
+                    <p>Bem-vindo ao <strong>PhysicSim</strong>! Este simulador calcula a dinâmica de um sistema de 3 blocos interligados com polia e atrito.</p>
+                    <ol>
+                        <li><strong>Ajuste as massas:</strong> Defina os valores para m₁, m₂ (no plano inclinado) e m₃ (pendurado).</li>
+                        <li><strong>Plano e atrito:</strong> Use os sliders para ajustar o ângulo de inclinação (α) e os coeficientes de atrito (μₑ e μ𝒸).</li>
+                        <li><strong>Calcule:</strong> Clique em <strong>Calcular</strong> para verificar se o sistema entra em movimento ou permanece em equilíbrio.</li>
+                        <li><strong>Anime:</strong> Se houver movimento, clique em <strong>▶ Animar</strong> para ver o sentido do deslocamento no diagrama.</li>
+                        <li><strong>Estude:</strong> Role a página para conferir as forças detalhadas e a resolução algébrica passo a passo.</li>
+                    </ol>
+                    <div class="tutorial-tip">
+                        <strong>Dica:</strong> Se μₑ = μ𝒸 = 0, o plano não tem atrito (superfície perfeitamente lisa).
+                    </div>
+                </div>
+            </section>
+        </aside>
+    </main>
+
+    <footer>PhysicSim © 2026</footer>
+
+    <script src="script.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
