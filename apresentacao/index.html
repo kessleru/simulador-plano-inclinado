@@ -304,8 +304,11 @@
                         </div>
                         <div class="eq-card-body">
                             <code>f_total_c = μc · (N₁ + N₂)</code>
-                            <code class="hl">a = [P₃ − (P₁ₓ+P₂ₓ) ∓ f_total_c] / (m₁+m₂+m₃)</code>
-                            <code class="note">− se blocos sobem, + se descem</code>
+                            <code class="note">Se blocos sobem (F_net &gt; 0):</code>
+                            <code class="hl">a = [P₃ − (P₁ₓ+P₂ₓ) − f_total_c] / (m₁+m₂+m₃)</code>
+                            <code class="note">Se blocos descem (F_net &lt; 0):</code>
+                            <code class="hl">a = [P₃ − (P₁ₓ+P₂ₓ) + f_total_c] / (m₁+m₂+m₃)</code>
+                            <code class="note">Atrito sempre se opõe ao movimento</code>
                         </div>
                     </div>
                     <div class="eq-card">
@@ -328,7 +331,7 @@
                     <div class="eq-legend-item"><code>P</code> Peso (m·g)</div>
                     <div class="eq-legend-item"><code>N</code> Força Normal</div>
                     <div class="eq-legend-item"><code>f_max</code> Atrito Estático Max.</div>
-                    <div class="eq-legend-item"><code>f_c</code> Atrito Cinético</div>
+                    <div class="eq-legend-item"><code>f_total_c</code> Atrito Cinético Total</div>
                     <div class="eq-legend-item"><code>F_net</code> Força Resultante (sem atrito)</div>
                     <div class="eq-legend-item"><code>T</code> Tração da corda</div>
                     <div class="eq-legend-item"><code>μₑ / μc</code> Coef. Atrito Estático/Cinético</div>
@@ -734,13 +737,26 @@
 
     </div>
 
+    <!-- Equation Modal -->
+    <div class="eq-modal-overlay" id="eq-modal-overlay">
+        <div class="eq-modal" id="eq-modal">
+            <button class="eq-modal-close" id="eq-modal-close" aria-label="Fechar">&times;</button>
+            <div class="eq-modal-header" id="eq-modal-header">
+                <span class="eq-modal-step" id="eq-modal-step"></span>
+                <h3 class="eq-modal-title" id="eq-modal-title"></h3>
+            </div>
+            <div class="eq-modal-equations" id="eq-modal-equations"></div>
+            <div class="eq-modal-explanation" id="eq-modal-explanation"></div>
+        </div>
+    </div>
+
     <!-- Keyboard hint -->
     <div class="kb-hint" id="kb-hint">
         <kbd>←</kbd> <kbd>→</kbd> para navegar &nbsp;·&nbsp; <kbd>F</kbd> tela cheia
     </div>
 
     <script src="slides.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@1.22.0"></script>
     <script>lucide.createIcons();</script>
 </body>
 </html>

@@ -26,7 +26,7 @@
     };
 
     // ── Estado ──
-    let res = null, animId = null, animOff = 0, anim = false;
+    let res = null, animId = null, animOff = 0, anim = false, ctx = null;
 
     // ── Helpers ──
     const fmt = (n, d = 2) => (n == null || isNaN(n)) ? '—' : Number(n).toFixed(d);
@@ -110,17 +110,29 @@
         };
     }
 
+    // ── Canvas ──
+    function setupCanvas() {
+        const dpr = devicePixelRatio || 1;
+        dom.canvas.width = 900 * dpr;
+        dom.canvas.height = 460 * dpr;
+        dom.canvas.style.width = '900px';
+        dom.canvas.style.height = '460px';
+        ctx = dom.canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
     // ── Canvas principal ──
     function drawMain(r) {
         const W = 900, H = 460;
-        const ctx = hiDPI(dom.canvas, W, H);
         ctx.clearRect(0, 0, W, H);
 
         const alpha = r ? r.alpha : rad(30);
+        const sAlpha = r ? r.sA : Math.sin(alpha);
+        const cAlpha = r ? r.cA : Math.cos(alpha);
         const hyp = 360;
         const Bx = 600, By = 400;
-        const Ax = Bx - hyp * Math.cos(alpha), Ay = By;
-        const Cx = Bx, Cy = By - hyp * Math.sin(alpha);
+        const Ax = Bx - hyp * cAlpha, Ay = By;
+        const Cx = Bx, Cy = By - hyp * sAlpha;
 
         // Chão
         ctx.strokeStyle = '#2a2a2a';
@@ -159,10 +171,11 @@
         function drawBlock(px, py, col, label) {
             ctx.save(); ctx.translate(px, py); ctx.rotate(-alpha);
             ctx.fillStyle = col;
-            rRect(ctx, -bW / 2, -bH, bW, bH, 4); ctx.fill();
+            rRect(ctx, -bW / 2, -bH, bW, bH, 4);
+            ctx.fill();
             ctx.strokeStyle = 'rgba(255,255,255,0.15)';
             ctx.lineWidth = 1;
-            rRect(ctx, -bW / 2, -bH, bW, bH, 4); ctx.stroke();
+            ctx.stroke();
             ctx.fillStyle = '#fff';
             ctx.font = '600 11px Inter';
             ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -205,9 +218,10 @@
         ctx.setLineDash([]);
         // Bloco
         ctx.fillStyle = '#b8a030';
-        rRect(ctx, m3X - m3S / 2, m3Y - m3S / 2, m3S, m3S, 4); ctx.fill();
+        rRect(ctx, m3X - m3S / 2, m3Y - m3S / 2, m3S, m3S, 4);
+        ctx.fill();
         ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1;
-        rRect(ctx, m3X - m3S / 2, m3Y - m3S / 2, m3S, m3S, 4); ctx.stroke();
+        ctx.stroke();
         ctx.fillStyle = '#fff'; ctx.font = '600 11px Inter';
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText('m₃', m3X, m3Y);
@@ -421,7 +435,7 @@
     }
 
     // ── Handlers ──
-    function doCalc(scroll) {
+    function doCalc() {
         const vals = [dom.m1, dom.m2, dom.m3, dom.angle, dom.g].map(e => parseFloat(e.value));
         if (vals.some(v => isNaN(v) || v <= 0)) return;
         const muE = parseFloat(dom.muE.value);
@@ -454,23 +468,29 @@
     }
 
     // ── Init ──
-    dom.btnCalc.addEventListener('click', () => doCalc(false));
+    dom.btnCalc.addEventListener('click', () => doCalc());
     dom.btnClear.addEventListener('click', doClear);
     dom.btnAnim.addEventListener('click', startAnim);
     dom.btnStop.addEventListener('click', stopAnim);
 
     // Atualizações em tempo real — SEM rolar a página
-    dom.angle.addEventListener('input', () => { dom.angleSlider.value = dom.angle.value; if (res) doCalc(false); });
-    dom.angleSlider.addEventListener('input', () => { dom.angle.value = dom.angleSlider.value; if (res) doCalc(false); });
-    dom.muE.addEventListener('input', () => { dom.muESlider.value = Math.round(parseFloat(dom.muE.value) * 100); if (res) doCalc(false); });
-    dom.muESlider.addEventListener('input', () => { dom.muE.value = (parseInt(dom.muESlider.value) / 100).toFixed(2); if (res) doCalc(false); });
-    dom.muK.addEventListener('input', () => { dom.muKSlider.value = Math.round(parseFloat(dom.muK.value) * 100); if (res) doCalc(false); });
-    dom.muKSlider.addEventListener('input', () => { dom.muK.value = (parseInt(dom.muKSlider.value) / 100).toFixed(2); if (res) doCalc(false); });
-    [dom.m1, dom.m2, dom.m3, dom.g].forEach(e => e.addEventListener('input', () => { if (res) doCalc(false); }));
+    dom.angle.addEventListener('input', () => { dom.angleSlider.value = dom.angle.value; if (res) doCalc(); });
+    dom.angleSlider.addEventListener('input', () => { dom.angle.value = dom.angleSlider.value; if (res) doCalc(); });
+    dom.muE.addEventListener('input', () => { dom.muESlider.value = Math.round(parseFloat(dom.muE.value) * 100); if (res) doCalc(); });
+    dom.muESlider.addEventListener('input', () => { dom.muE.value = (parseInt(dom.muESlider.value) / 100).toFixed(2); if (res) doCalc(); });
+    dom.muK.addEventListener('input', () => { dom.muKSlider.value = Math.round(parseFloat(dom.muK.value) * 100); if (res) doCalc(); });
+    dom.muKSlider.addEventListener('input', () => { dom.muK.value = (parseInt(dom.muKSlider.value) / 100).toFixed(2); if (res) doCalc(); });
+    [dom.m1, dom.m2, dom.m3, dom.g].forEach(e => e.addEventListener('input', () => { if (res) doCalc(); }));
 
+    let resizeTimer;
     window.addEventListener('resize', () => {
-        drawMain(res);
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            setupCanvas();
+            drawMain(res);
+        }, 100);
     });
 
+    setupCanvas();
     drawMain(null);
 })();

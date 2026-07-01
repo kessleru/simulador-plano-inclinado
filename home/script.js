@@ -20,6 +20,7 @@
 
     // ── Keyboard navigation ──
     document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         if (e.key === '1') {
             window.location.href = '../simulador/index.html';
         }

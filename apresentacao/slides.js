@@ -26,6 +26,7 @@
         dot.addEventListener('click', () => goTo(i));
         dotsContainer.appendChild(dot);
     }
+    const dots = dotsContainer.querySelectorAll('.slide-dot');
 
     // ── Navigation ──
     function goTo(n, direction) {
@@ -44,9 +45,9 @@
                 prev.style.transform = 'translateX(60px)';
             }
             prev.style.opacity = '0';
-            setTimeout(() => {
+            prev.addEventListener('transitionend', function() {
                 prev.style.visibility = 'hidden';
-            }, 450);
+            }, { once: true });
         }
 
         // Enter
@@ -78,7 +79,7 @@
         progress.style.width = `${(current / total) * 100}%`;
 
         // Update dots
-        document.querySelectorAll('.slide-dot').forEach(d => {
+        dots.forEach(d => {
             d.classList.toggle('active', parseInt(d.dataset.slide) === current);
         });
     }
@@ -485,8 +486,103 @@
     setTimeout(drawCanvases, 100);
 
     // Redraw on resize
+    let resizeTimer;
     window.addEventListener('resize', () => {
-        drawCanvases();
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(drawCanvases, 100);
+    });
+
+    // ============================================================
+    //  EQUATION MODAL
+    // ============================================================
+
+    const modalOverlay = document.getElementById('eq-modal-overlay');
+    const modalEl = document.getElementById('eq-modal');
+    const modalStep = document.getElementById('eq-modal-step');
+    const modalTitle = document.getElementById('eq-modal-title');
+    const modalEquations = document.getElementById('eq-modal-equations');
+    const modalExplanation = document.getElementById('eq-modal-explanation');
+    const modalClose = document.getElementById('eq-modal-close');
+
+    // Explanations keyed by step number
+    const explanations = {
+        '2': {
+            text: 'O <strong>peso</strong> é a força gravitacional que atua sobre cada bloco, calculada pelo produto da massa pela aceleração da gravidade. Esta força é sempre vertical, apontando para baixo, independente da inclinação do plano.',
+        },
+        '3': {
+            text: 'Decompomos o peso nos <strong>eixos do plano inclinado</strong> usando trigonometria. A componente <strong>Pₓ (paralela)</strong> é responsável por "puxar" o bloco rampa abaixo, enquanto <strong>Pᵧ (perpendicular)</strong> é equilibrada pela força normal.',
+        },
+        '4': {
+            text: 'A <strong>força normal</strong> é a reação do plano sobre o bloco, perpendicular à superfície. Ela equilibra exatamente a componente perpendicular do peso (Pᵧ). A normal é fundamental para calcular a força de atrito.',
+        },
+        '5': {
+            text: 'O <strong>atrito estático máximo</strong> é o limite de força que a superfície pode exercer antes que o bloco comece a escorregar. Se a força resultante não superar <strong>f_max_total</strong>, o sistema permanece em equilíbrio estático — sem qualquer movimento.',
+        },
+        '6': {
+            text: 'Calculamos a <strong>força resultante sem atrito</strong> (F_net = peso de m₃ menos as componentes Pₓ no plano). Se |F_net| ≤ f_max_total, o atrito estático consegue segurar o sistema. Caso contrário, o sistema <strong>entra em movimento</strong> e o sentido depende do sinal de F_net.',
+        },
+        '7': {
+            text: 'Com o sistema em movimento, aplicamos a <strong>2ª Lei de Newton</strong> (ΣF = ma) ao conjunto dos 3 blocos. O atrito agora é <strong>cinético</strong> (μc), que se opõe ao sentido do deslocamento. O sinal do atrito na equação muda conforme os blocos sobem ou descem a rampa.',
+        },
+        '8': {
+            text: 'As <strong>trações T₁ e T₂</strong> são calculadas isolando cada bloco individualmente e aplicando F = ma. T₁ conecta m₁ a m₂, e T₂ conecta m₂ a m₃ via polia. Note que as fórmulas mudam conforme o sentido do movimento, pois o atrito e a aceleração trocam de sinal.',
+        },
+    };
+
+    function openModal(card) {
+        const stepEl = card.querySelector('.eq-step');
+        const titleEl = card.querySelector('.eq-card-header span:last-child');
+        const bodyEl = card.querySelector('.eq-card-body');
+        if (!stepEl || !titleEl || !bodyEl) return;
+
+        const stepNum = stepEl.textContent.trim();
+
+        // Populate header
+        modalStep.textContent = stepNum;
+        modalTitle.textContent = titleEl.textContent;
+
+        // Populate equations (clone code elements at larger size)
+        modalEquations.innerHTML = '';
+        bodyEl.querySelectorAll('code').forEach(code => {
+            const clone = code.cloneNode(true);
+            modalEquations.appendChild(clone);
+        });
+
+        // Populate explanation
+        const exp = explanations[stepNum];
+        if (exp) {
+            modalExplanation.innerHTML =
+                '<div class="explanation-label">💡 Explicação</div>' +
+                '<p>' + exp.text + '</p>';
+            modalExplanation.style.display = '';
+        } else {
+            modalExplanation.style.display = 'none';
+        }
+
+        // Show
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Attach click handlers to all eq-cards
+    document.querySelectorAll('.eq-card').forEach(card => {
+        card.addEventListener('click', () => openModal(card));
+    });
+
+    // Close handlers
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+            closeModal();
+        }
     });
 
 })();
