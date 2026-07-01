@@ -381,13 +381,13 @@
 
     <span class="cm">// 4. Teste Lógico: Sistema entra em equilíbrio ou se move?</span>
     <span class="kw">if</span> (Math.abs(Fnet) &lt;= fT_max) {
-        <span class="cm">// A força não superou o atrito estático -> Equilíbrio (Aceleração Zero)</span>
+        <span class="cm">// A força não superou o atrito estático → Equilíbrio (Aceleração Zero)</span>
         dir = 'Equilíbrio'; code = 'eq'; acc = 0;
         T2 = P3;
         f1E = Fnet * m1 / (m1 + m2);
         f2E = Fnet * m2 / (m1 + m2);
-        T1 = P1x + f1E;
-        f1 = 0; f2 = 0;
+        T1 = P1x + f1E; <span class="cm">// Ou: T1 = T2 - f2E (matematicamente equivalentes)</span>
+        f2 = 0;
     } <span class="kw">else</span> {
         <span class="cm">// Movimento iminente detectado -> Aplica Atrito Cinético</span>
         f1 = muK * N1; f2 = muK * N2; 
